@@ -18,84 +18,70 @@ class DevOpsClient:
         """Initilalize."""
         self.pat = None
 
-    # async def get_request(self, url: str) -> aiohttp.ClientResponse:
-    #     """Runs a GET request and returns response"""
-    #     print(url)
-    #     async with aiohttp.ClientSession() as session:
-    #         response: aiohttp.ClientResponse = await session.get(
-    #             url,
-    #             headers={"Authorization": aiohttp.BasicAuth("", self.pat).encode()}
-    #             if self.pat is not None
-    #             else {},
-    #         )
-    #         return response
+    async def fetch(
+        self, session: aiohttp.ClientSession, url: str
+    ) -> aiohttp.ClientResponse:
+        """Runs a GET request and returns response"""
+        if self.pat is None:
+            return await session.get(url)
+        else:
+            return await session.get(
+                url, headers={"Authorization": aiohttp.BasicAuth("", self.pat).encode()}
+            )
 
     async def authorize(self, pat: str, organization: str) -> bool:
         """Authenticate."""
         async with aiohttp.ClientSession() as session:
-            response: aiohttp.ClientResponse = await session.get(
-                f"https://dev.azure.com/{organization}/_apis/projects",
-                headers={"Authorization": aiohttp.BasicAuth("", self.pat).encode()}
-                if self.pat is not None
-                else {},
-            )
-        if response.status is 200:
             self.pat = pat
-            return True
-        return False
-        # response: aiohttp.ClientResponse = await self.get_request(
-        #     pat,
-        # )
+            response: aiohttp.ClientResponse = await self.fetch(
+                session, f"https://dev.azure.com/{organization}/_apis/projects"
+            )
+            if response.status is 200:
+                return True
+            return False
 
     async def get_project(self, organization: str, project: str) -> DevOpsProject:
         """Get DevOps project."""
-        # response: aiohttp.ClientResponse = await self.get_request(
-        #     f"https://dev.azure.com/{organization}/_apis/projects/{project}"
-        # )
         async with aiohttp.ClientSession() as session:
-            response: aiohttp.ClientResponse = await session.get(
+            response: aiohttp.ClientResponse = await self.fetch(
+                session,
                 f"https://dev.azure.com/{organization}/_apis/projects/{project}",
-                headers={"Authorization": aiohttp.BasicAuth("", self.pat).encode()}
-                if self.pat is not None
-                else {},
             )
-        if response.status is not 200:
-            return None
-        json = await response.json()
-        if json is None:
-            return None
+            if response.status is not 200:
+                return None
+            json = await response.json()
+            if json is None:
+                return None
 
-        return DevOpsProject(
-            json["id"],
-            json["name"],
-            json["description"],
-            json["url"],
-            json["state"],
-            json["revision"],
-            DevOpsLinks(
-                json["_links"]["self"]["href"],
-                json["_links"]["collection"]["href"],
-                json["_links"]["web"]["href"],
-            ),
-            json["visibility"],
-            DevOpsTeam(
-                json["defaultTeam"]["id"],
-                json["defaultTeam"]["name"],
-                json["defaultTeam"]["url"],
-            ),
-            datetime.strptime(json["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ"),
-        )
+            return DevOpsProject(
+                json["id"],
+                json["name"],
+                json["description"],
+                json["url"],
+                json["state"],
+                json["revision"],
+                DevOpsLinks(
+                    json["_links"]["self"]["href"],
+                    json["_links"]["collection"]["href"],
+                    json["_links"]["web"]["href"],
+                ),
+                json["visibility"],
+                DevOpsTeam(
+                    json["defaultTeam"]["id"],
+                    json["defaultTeam"]["name"],
+                    json["defaultTeam"]["url"],
+                ),
+                datetime.strptime(json["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ"),
+            )
 
     async def get_builds(
         self, organization: str, project: str, parameters: str
     ) -> List[DevOpsBuild]:
         """Get DevOps builds."""
         async with aiohttp.ClientSession() as session:
-            response: aiohttp.ClientResponse = await session.get(
+            response: aiohttp.ClientResponse = await self.fetch(
+                session,
                 f"https://dev.azure.com/{organization}/{project}/_apis/build/builds{parameters}",
-                headers={"Authorization": aiohttp.BasicAuth("", self.pat).encode()}
-                if self.pat is not None
-                else {},
             )
             if response.status is not 200:
                 return None
