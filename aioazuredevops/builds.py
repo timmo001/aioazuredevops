@@ -21,6 +21,28 @@ class DevOpsBuildLinks:
         self.badge = badge
 
 
+class DevOpsBuildDefinition:
+    """DevOps build definition."""
+
+    def __init__(
+        self,
+        id: int,
+        name: str,
+        url: str,
+        path: str,
+        type: str,
+        queue_status: str,
+        revision: int,
+    ):
+        self.id = id
+        self.name = name
+        self.url = url
+        self.path = path
+        self.type = type
+        self.queue_status = queue_status
+        self.revision = revision
+
+
 class DevOpsBuild:
     """DevOps build."""
 
@@ -38,6 +60,7 @@ class DevOpsBuild:
         queue_time: str,
         start_time: str,
         finish_time: str,
+        definition: DevOpsBuildDefinition,
     ):
         """Initialize"""
         self.id = id
@@ -52,3 +75,4 @@ class DevOpsBuild:
         self.queue_time = queue_time
         self.start_time = start_time
         self.finish_time = finish_time
+        self.definition = definition

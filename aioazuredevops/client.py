@@ -8,7 +8,7 @@ from typing import List
 import aiohttp
 
 from aioazuredevops.core import DevOpsLinks, DevOpsProject, DevOpsTeam
-from aioazuredevops.builds import DevOpsBuild, DevOpsBuildLinks
+from aioazuredevops.builds import DevOpsBuild, DevOpsBuildDefinition, DevOpsBuildLinks
 
 
 class DevOpsClient:
@@ -111,6 +111,15 @@ class DevOpsClient:
                         build["queueTime"],
                         build["startTime"],
                         build["finishTime"],
+                        DevOpsBuildDefinition(
+                            build["definition"]["id"],
+                            build["definition"]["name"],
+                            build["definition"]["url"],
+                            build["definition"]["path"],
+                            build["definition"]["type"],
+                            build["definition"]["queueStatus"],
+                            build["definition"]["revision"],
+                        ),
                     )
                 )
 
@@ -150,4 +159,13 @@ class DevOpsClient:
                 build["queueTime"],
                 build["startTime"],
                 build["finishTime"],
+                DevOpsBuildDefinition(
+                    build["definition"]["id"],
+                    build["definition"]["name"],
+                    build["definition"]["url"],
+                    build["definition"]["path"],
+                    build["definition"]["type"],
+                    build["definition"]["queueStatus"],
+                    build["definition"]["revision"],
+                ),
             )
