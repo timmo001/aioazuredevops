@@ -1,10 +1,13 @@
 """Enable CLI."""
 import asyncio
 import json
+from typing import List
 
 import click
 
-from aioazuredevops.client import DevOpsClient, DevOpsProject
+from aioazuredevops.client import DevOpsClient
+from aioazuredevops.core import DevOpsProject
+from aioazuredevops.builds import DevOpsBuild
 
 
 @click.command()
@@ -23,11 +26,27 @@ async def handle(organization: str, project: str, pat: str = None) -> None:
             print("Authenticated.")
         else:
             return
-    project: DevOpsProject = await client.get_project(organization, project)
-    if project is not None:
-        print(project.id)
-        print(project.name)
-        print(project.description)
+    print("Project:")
+    doProject: DevOpsProject = await client.get_project(organization, project)
+    if doProject is not None:
+        print(doProject.id)
+        print(doProject.name)
+        print(doProject.description)
+    print("Builds:")
+    builds: List[DevOpsBuild] = await client.get_builds(
+        organization,
+        project,
+        "?queryOrder=queueTimeDescending&maxBuildsPerDefinition=1",
+    )
+    if builds is not None and len(builds) > 0:
+        build: DevOpsBuild = builds[0]
+        if build is not None:
+            print(build.id)
+            print(build.build_number)
+            print(build.status)
+            print(build.result)
+            print(build.source_branch)
+            print(build.source_version)
 
 
 cli()  # pylint: disable=E1120
