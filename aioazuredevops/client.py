@@ -139,7 +139,7 @@ class DevOpsClient:
             return builds
 
     async def get_build(
-        self, organization: str, project: str, parameters: str, build_id: int
+        self, organization: str, project: str, build_id: int
     ) -> DevOpsBuild:
         """Get DevOps builds."""
         async with aiohttp.ClientSession() as session:
