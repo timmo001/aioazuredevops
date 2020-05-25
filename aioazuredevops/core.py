@@ -6,7 +6,9 @@ from typing import List
 class DevOpsLinks:
     """Links."""
 
-    def __init__(self, linkSelf: str, linkCollection: str, linkWeb: str):
+    def __init__(
+        self, linkSelf: str = None, linkCollection: str = None, linkWeb: str = None
+    ):
         """Initialize"""
         self.self = linkSelf
         self.collection = linkCollection
@@ -16,7 +18,7 @@ class DevOpsLinks:
 class DevOpsTeam:
     """DevOps Team."""
 
-    def __init__(self, id: str, name: str, url: str):
+    def __init__(self, id: str, name: str, url: str = None):
         """Initialize"""
         self.id = id
         self.name = name
@@ -30,12 +32,12 @@ class DevOpsProject:
         self,
         id: str,
         name: str,
-        description: str,
-        url: str,
-        state: str,
-        revision: int,
-        visibility: str,
-        last_updated: datetime,
+        description: str = None,
+        url: str = None,
+        state: str = None,
+        revision: int = None,
+        visibility: str = None,
+        last_updated: datetime = None,
         default_team: DevOpsTeam = None,
         links: DevOpsLinks = None,
     ):

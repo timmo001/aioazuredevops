@@ -9,11 +9,11 @@ class DevOpsBuildLinks:
 
     def __init__(
         self,
-        lSelf: str,
-        web: str,
-        source_version_display_uri: str,
-        timeline: str,
-        badge: str,
+        lSelf: str = None,
+        web: str = None,
+        source_version_display_uri: str = None,
+        timeline: str = None,
+        badge: str = None,
     ):
         """Initialize"""
         self.self = lSelf
@@ -30,11 +30,11 @@ class DevOpsBuildDefinition:
         self,
         id: int,
         name: str,
-        url: str,
-        path: str,
-        type: str,
-        queue_status: str,
-        revision: int,
+        url: str = None,
+        path: str = None,
+        type: str = None,
+        queue_status: str = None,
+        revision: int = None,
     ):
         self.id = id
         self.name = name
@@ -51,19 +51,19 @@ class DevOpsBuild:
     def __init__(
         self,
         id: int,
-        links: DevOpsBuildLinks,
-        build_number: str,
-        status: str,
-        result: str,
-        source_branch: str,
-        source_version: str,
-        priority: str,
-        reason: str,
-        queue_time: str,
-        start_time: str,
-        finish_time: str,
-        definition: DevOpsBuildDefinition,
-        project: DevOpsProject,
+        build_number: str = None,
+        status: str = None,
+        result: str = None,
+        source_branch: str = None,
+        source_version: str = None,
+        priority: str = None,
+        reason: str = None,
+        queue_time: str = None,
+        start_time: str = None,
+        finish_time: str = None,
+        definition: DevOpsBuildDefinition = None,
+        project: DevOpsProject = None,
+        links: DevOpsBuildLinks = None,
     ):
         """Initialize"""
         self.id = id

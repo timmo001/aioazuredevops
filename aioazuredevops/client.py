@@ -56,22 +56,28 @@ class DevOpsClient:
             return DevOpsProject(
                 json["id"],
                 json["name"],
-                json["description"],
-                json["url"],
-                json["state"],
-                json["revision"],
-                json["visibility"],
-                datetime.strptime(json["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ"),
+                json["description"] if "description" in json else None,
+                json["url"] if "url" in json else None,
+                json["state"] if "state" in json else None,
+                json["revision"] if "revision" in json else None,
+                json["visibility"] if "visibility" in json else None,
+                datetime.strptime(json["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ")
+                if "lastUpdateTime" in json
+                else None,
                 DevOpsTeam(
                     json["defaultTeam"]["id"],
                     json["defaultTeam"]["name"],
                     json["defaultTeam"]["url"],
-                ),
+                )
+                if "defaultTeam" in json
+                else None,
                 DevOpsLinks(
                     json["_links"]["self"]["href"],
                     json["_links"]["collection"]["href"],
                     json["_links"]["web"]["href"],
-                ),
+                )
+                if "_links" in json
+                else None,
             )
 
     async def get_builds(
@@ -94,45 +100,83 @@ class DevOpsClient:
                 builds.append(
                     DevOpsBuild(
                         build["id"],
-                        DevOpsBuildLinks(
-                            build["_links"]["self"]["href"],
-                            build["_links"]["web"]["href"],
-                            build["_links"]["sourceVersionDisplayUri"]["href"],
-                            build["_links"]["timeline"]["href"],
-                            build["_links"]["badge"]["href"],
-                        ),
-                        build["buildNumber"],
-                        build["status"],
-                        build["result"],
-                        build["sourceBranch"],
-                        build["sourceVersion"],
-                        build["priority"],
-                        build["reason"],
-                        build["queueTime"],
-                        build["startTime"],
-                        build["finishTime"],
+                        build["buildNumber"] if "buildNumber" in build else None,
+                        build["status"] if "status" in build else None,
+                        build["result"] if "result" in build else None,
+                        build["sourceBranch"] if "sourceBranch" in build else None,
+                        build["sourceVersion"] if "sourceVersion" in build else None,
+                        build["priority"] if "priority" in build else None,
+                        build["reason"] if "reason" in build else None,
+                        build["queueTime"] if "queueTime" in build else None,
+                        build["startTime"] if "startTime" in build else None,
+                        build["startTime"] if "startTime" in build else None,
                         DevOpsBuildDefinition(
                             build["definition"]["id"],
                             build["definition"]["name"],
-                            build["definition"]["url"],
-                            build["definition"]["path"],
-                            build["definition"]["type"],
-                            build["definition"]["queueStatus"],
-                            build["definition"]["revision"],
-                        ),
+                            build["definition"]["url"]
+                            if "url" in build["definition"]
+                            else None,
+                            build["definition"]["path"]
+                            if "path" in build["definition"]
+                            else None,
+                            build["definition"]["type"]
+                            if "type" in build["definition"]
+                            else None,
+                            build["definition"]["queueStatus"]
+                            if "queueStatus" in build["definition"]
+                            else None,
+                            build["definition"]["revision"]
+                            if "revision" in build["definition"]
+                            else None,
+                        )
+                        if "definition" in build
+                        else None,
                         DevOpsProject(
                             build["project"]["id"],
                             build["project"]["name"],
-                            build["project"]["description"],
-                            build["project"]["url"],
-                            build["project"]["state"],
-                            build["project"]["revision"],
-                            build["project"]["visibility"],
+                            build["project"]["description"]
+                            if "description" in build["project"]
+                            else None,
+                            build["project"]["url"]
+                            if "url" in build["project"]
+                            else None,
+                            build["project"]["state"]
+                            if "state" in build["project"]
+                            else None,
+                            build["project"]["revision"]
+                            if "revision" in build["project"]
+                            else None,
+                            build["project"]["visibility"]
+                            if "visibility" in build["project"]
+                            else None,
                             datetime.strptime(
                                 build["project"]["lastUpdateTime"],
                                 "%Y-%m-%dT%H:%M:%S.%fZ",
-                            ),
-                        ),
+                            )
+                            if "lastUpdateTime" in build["project"]
+                            else None,
+                        )
+                        if "project" in build
+                        else None,
+                        DevOpsBuildLinks(
+                            build["_links"]["self"]["href"]
+                            if "self" in build["_links"]
+                            else None,
+                            build["_links"]["web"]["href"]
+                            if "web" in build["_links"]
+                            else None,
+                            build["_links"]["sourceVersionDisplayUri"]["href"]
+                            if "sourceVersionDisplayUri" in build["_links"]
+                            else None,
+                            build["_links"]["timeline"]["href"]
+                            if "timeline" in build["_links"]
+                            else None,
+                            build["_links"]["badge"]["href"]
+                            if "badge" in build["_links"]
+                            else None,
+                        )
+                        if "_links" in build
+                        else None,
                     )
                 )
 
@@ -155,42 +199,77 @@ class DevOpsClient:
 
             return DevOpsBuild(
                 build["id"],
-                DevOpsBuildLinks(
-                    build["_links"]["self"]["href"],
-                    build["_links"]["web"]["href"],
-                    build["_links"]["sourceVersionDisplayUri"]["href"],
-                    build["_links"]["timeline"]["href"],
-                    build["_links"]["badge"]["href"],
-                ),
-                build["buildNumber"],
-                build["status"],
-                build["result"],
-                build["sourceBranch"],
-                build["sourceVersion"],
-                build["priority"],
-                build["reason"],
-                build["queueTime"],
-                build["startTime"],
-                build["finishTime"],
+                build["buildNumber"] if "buildNumber" in build else None,
+                build["status"] if "status" in build else None,
+                build["result"] if "result" in build else None,
+                build["sourceBranch"] if "sourceBranch" in build else None,
+                build["sourceVersion"] if "sourceVersion" in build else None,
+                build["priority"] if "priority" in build else None,
+                build["reason"] if "reason" in build else None,
+                build["queueTime"] if "queueTime" in build else None,
+                build["startTime"] if "startTime" in build else None,
+                build["startTime"] if "startTime" in build else None,
                 DevOpsBuildDefinition(
                     build["definition"]["id"],
                     build["definition"]["name"],
-                    build["definition"]["url"],
-                    build["definition"]["path"],
-                    build["definition"]["type"],
-                    build["definition"]["queueStatus"],
-                    build["definition"]["revision"],
-                ),
+                    build["definition"]["url"]
+                    if "url" in build["definition"]
+                    else None,
+                    build["definition"]["path"]
+                    if "path" in build["definition"]
+                    else None,
+                    build["definition"]["type"]
+                    if "type" in build["definition"]
+                    else None,
+                    build["definition"]["queueStatus"]
+                    if "queueStatus" in build["definition"]
+                    else None,
+                    build["definition"]["revision"]
+                    if "revision" in build["definition"]
+                    else None,
+                )
+                if "definition" in build
+                else None,
                 DevOpsProject(
                     build["project"]["id"],
                     build["project"]["name"],
-                    build["project"]["description"],
-                    build["project"]["url"],
-                    build["project"]["state"],
-                    build["project"]["revision"],
-                    build["project"]["visibility"],
+                    build["project"]["description"]
+                    if "description" in build["project"]
+                    else None,
+                    build["project"]["url"] if "url" in build["project"] else None,
+                    build["project"]["state"] if "state" in build["project"] else None,
+                    build["project"]["revision"]
+                    if "revision" in build["project"]
+                    else None,
+                    build["project"]["visibility"]
+                    if "visibility" in build["project"]
+                    else None,
                     datetime.strptime(
                         build["project"]["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ",
-                    ),
-                ),
+                    )
+                    if "lastUpdateTime" in build["project"]
+                    else None,
+                )
+                if "project" in build
+                else None,
+                DevOpsBuildLinks(
+                    build["_links"]["self"]["href"]
+                    if "self" in build["_links"]
+                    else None,
+                    build["_links"]["web"]["href"]
+                    if "web" in build["_links"]
+                    else None,
+                    build["_links"]["sourceVersionDisplayUri"]["href"]
+                    if "sourceVersionDisplayUri" in build["_links"]
+                    else None,
+                    build["_links"]["timeline"]["href"]
+                    if "timeline" in build["_links"]
+                    else None,
+                    build["_links"]["badge"]["href"]
+                    if "badge" in build["_links"]
+                    else None,
+                )
+                if "_links" in build
+                else None,
             )
+
