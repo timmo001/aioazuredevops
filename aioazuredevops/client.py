@@ -115,3 +115,39 @@ class DevOpsClient:
                 )
 
             return builds
+
+    async def get_build(
+        self, organization: str, project: str, parameters: str, build_id: int
+    ) -> DevOpsBuild:
+        """Get DevOps builds."""
+        async with aiohttp.ClientSession() as session:
+            response: aiohttp.ClientResponse = await self.fetch(
+                session,
+                f"https://dev.azure.com/{organization}/{project}/_apis/build/builds/{build_id}",
+            )
+            if response.status is not 200:
+                return None
+            build = await response.json()
+            if build is None:
+                return None
+
+            return DevOpsBuild(
+                build["id"],
+                DevOpsBuildLinks(
+                    build["_links"]["self"]["href"],
+                    build["_links"]["web"]["href"],
+                    build["_links"]["sourceVersionDisplayUri"]["href"],
+                    build["_links"]["timeline"]["href"],
+                    build["_links"]["badge"]["href"],
+                ),
+                build["buildNumber"],
+                build["status"],
+                build["result"],
+                build["sourceBranch"],
+                build["sourceVersion"],
+                build["priority"],
+                build["reason"],
+                build["queueTime"],
+                build["startTime"],
+                build["finishTime"],
+            )
