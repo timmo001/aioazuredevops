@@ -49,6 +49,8 @@ async def handle(organization: str, project: str, pat: str = None) -> None:
             print(build.source_version)
             print(build.definition.id)
             print(build.definition.name)
+            print(build.project.id)
+            print(build.project.name)
 
 
 cli()  # pylint: disable=E1120

@@ -1,6 +1,8 @@
 """DevOps Builds. https://docs.microsoft.com/en-gb/rest/api/azure/devops/build/builds?view=azure-devops-rest-5.1"""
 from datetime import datetime
 
+from aioazuredevops.core import DevOpsProject
+
 
 class DevOpsBuildLinks:
     """DevOps build links."""
@@ -61,6 +63,7 @@ class DevOpsBuild:
         start_time: str,
         finish_time: str,
         definition: DevOpsBuildDefinition,
+        project: DevOpsProject,
     ):
         """Initialize"""
         self.id = id
@@ -76,3 +79,4 @@ class DevOpsBuild:
         self.start_time = start_time
         self.finish_time = finish_time
         self.definition = definition
+        self.project = project

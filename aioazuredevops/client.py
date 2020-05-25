@@ -60,18 +60,18 @@ class DevOpsClient:
                 json["url"],
                 json["state"],
                 json["revision"],
-                DevOpsLinks(
-                    json["_links"]["self"]["href"],
-                    json["_links"]["collection"]["href"],
-                    json["_links"]["web"]["href"],
-                ),
                 json["visibility"],
+                datetime.strptime(json["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ"),
                 DevOpsTeam(
                     json["defaultTeam"]["id"],
                     json["defaultTeam"]["name"],
                     json["defaultTeam"]["url"],
                 ),
-                datetime.strptime(json["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ"),
+                DevOpsLinks(
+                    json["_links"]["self"]["href"],
+                    json["_links"]["collection"]["href"],
+                    json["_links"]["web"]["href"],
+                ),
             )
 
     async def get_builds(
@@ -120,6 +120,19 @@ class DevOpsClient:
                             build["definition"]["queueStatus"],
                             build["definition"]["revision"],
                         ),
+                        DevOpsProject(
+                            build["project"]["id"],
+                            build["project"]["name"],
+                            build["project"]["description"],
+                            build["project"]["url"],
+                            build["project"]["state"],
+                            build["project"]["revision"],
+                            build["project"]["visibility"],
+                            datetime.strptime(
+                                build["project"]["lastUpdateTime"],
+                                "%Y-%m-%dT%H:%M:%S.%fZ",
+                            ),
+                        ),
                     )
                 )
 
@@ -167,5 +180,17 @@ class DevOpsClient:
                     build["definition"]["type"],
                     build["definition"]["queueStatus"],
                     build["definition"]["revision"],
+                ),
+                DevOpsProject(
+                    build["project"]["id"],
+                    build["project"]["name"],
+                    build["project"]["description"],
+                    build["project"]["url"],
+                    build["project"]["state"],
+                    build["project"]["revision"],
+                    build["project"]["visibility"],
+                    datetime.strptime(
+                        build["project"]["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ",
+                    ),
                 ),
             )

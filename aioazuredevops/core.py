@@ -34,10 +34,10 @@ class DevOpsProject:
         url: str,
         state: str,
         revision: int,
-        links: DevOpsLinks,
         visibility: str,
-        default_team: DevOpsTeam,
         last_updated: datetime,
+        default_team: DevOpsTeam = None,
+        links: DevOpsLinks = None,
     ):
         """Initialize"""
         self.id = id
@@ -46,7 +46,7 @@ class DevOpsProject:
         self.url = url
         self.state = state
         self.revision = revision
-        self.links = links
         self.visibility = visibility
-        self.default_team = default_team
         self.last_updated = last_updated
+        self.default_team = default_team
+        self.links = links
