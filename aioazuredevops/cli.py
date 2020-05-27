@@ -22,9 +22,12 @@ def cli(organization: str, project: str, pat: str = None):
 async def handle(organization: str, project: str, pat: str = None) -> None:
     client = DevOpsClient()
     if pat is not None:
-        if await client.authorize(pat, organization) is True:
-            print("Authenticated.")
+        await client.authorize(pat, organization)
+        print(client.authorized)
+        if client.authorized:
+            print("Authorized.")
         else:
+            print("Not authorized.")
             return
     print("Project:")
     doProject: DevOpsProject = await client.get_project(organization, project)

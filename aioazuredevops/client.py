@@ -40,7 +40,8 @@ class DevOpsClient:
             )
             if response.status is 200:
                 self._authorized = True
-            self._authorized = False
+            else:
+                self._authorized = False
 
     async def get_project(self, organization: str, project: str) -> DevOpsProject:
         """Get DevOps project."""
