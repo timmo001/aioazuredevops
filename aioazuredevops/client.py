@@ -16,29 +16,31 @@ class DevOpsClient:
 
     def __init__(self) -> None:
         """Initilalize."""
-        self.pat = None
+        self._authorized = False
+        self._pat = None
 
     async def fetch(
         self, session: aiohttp.ClientSession, url: str
     ) -> aiohttp.ClientResponse:
         """Runs a GET request and returns response"""
-        if self.pat is None:
+        if self._pat is None:
             return await session.get(url)
         else:
             return await session.get(
-                url, headers={"Authorization": aiohttp.BasicAuth("", self.pat).encode()}
+                url,
+                headers={"Authorization": aiohttp.BasicAuth("", self._pat).encode()},
             )
 
-    async def authorize(self, pat: str, organization: str) -> bool:
+    async def authorize(self, pat: str, organization: str) -> None:
         """Authenticate."""
         async with aiohttp.ClientSession() as session:
-            self.pat = pat
+            self._pat = pat
             response: aiohttp.ClientResponse = await self.fetch(
                 session, f"https://dev.azure.com/{organization}/_apis/projects"
             )
             if response.status is 200:
-                return True
-            return False
+                self._authorized = True
+            self._authorized = False
 
     async def get_project(self, organization: str, project: str) -> DevOpsProject:
         """Get DevOps project."""
@@ -273,3 +275,10 @@ class DevOpsClient:
                 else None,
             )
 
+    @property
+    def authorized(self):
+        return self._authorized
+
+    @property
+    def pat(self):
+        return self._pat
