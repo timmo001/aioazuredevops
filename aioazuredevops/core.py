@@ -2,8 +2,6 @@
 DevOps Core
 https://docs.microsoft.com/en-gb/rest/api/azure/devops/core/?view=azure-devops-rest-6.0
 """
-from __future__ import typing
-
 from datetime import datetime
 
 

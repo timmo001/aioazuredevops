@@ -1,6 +1,4 @@
 """Enable CLI"""
-from __future__ import typing
-
 import asyncio
 
 import click
@@ -8,6 +6,8 @@ import click
 from aioazuredevops.builds import DevOpsBuild
 from aioazuredevops.client import DevOpsClient
 from aioazuredevops.core import DevOpsProject
+from aioazuredevops.wiql import DevOpsWiqlResult
+from aioazuredevops.work_item import DevOpsWorkItem
 
 
 @click.command()
@@ -16,7 +16,7 @@ from aioazuredevops.core import DevOpsProject
 @click.option("--pat", "-t", help="Personal Access Token")
 def cli(organization: str, project: str, pat: str = None):
     """CLI for this package."""
-    asyncio.run(handle(organization, project, pat))
+    asyncio.get_event_loop().run_until_complete(handle(organization, project, pat))
 
 
 async def handle(organization: str, project: str, pat: str = None) -> None:
@@ -56,5 +56,28 @@ async def handle(organization: str, project: str, pat: str = None) -> None:
             print(build.project.id)
             print(build.project.name)
 
+    wiql_result: DevOpsWiqlResult = await client.get_work_items_ids_all(
+        organization,
+        project,
+    )
+    if wiql_result:
+        ids: list[int] = [item.id for item in wiql_result.work_items]
+        print("Work item ids:")
+        print(ids)
 
-cli()  # pylint: disable=E1120
+        work_items: DevOpsWorkItem = await client.get_work_items(
+            organization,
+            project,
+            ids,
+        )
+        if work_items:
+            print("Work items:")
+            for item in work_items.value:
+                print("---------------------------------")
+                print(item.id)
+                print(item.fields.title)
+                print(item.fields.created_by.display_name)
+                print(item.fields.work_item_type)
+
+
+cli()
