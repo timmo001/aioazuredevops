@@ -80,4 +80,4 @@ async def handle(organization: str, project: str, pat: str = None) -> None:
                 print(item.fields.work_item_type)
 
 
-cli()
+cli()  # pylint: disable=E1120

@@ -2,31 +2,39 @@
 Work items in a project
 https://docs.microsoft.com/en-gb/rest/api/azure/devops/wit/work-items/list?view=azure-devops-rest-6.0
 """
-from uuid import UUID
 from datetime import datetime
+from uuid import UUID
 
 
 class DevOpsWorkItemAvatar:
+    """Work item avatar"""
+
     href: str
 
     def __init__(
         self,
         href: str,
     ) -> None:
+        """Initialize"""
         self.href = href
 
 
 class DevOpsWorkItemLinks:
+    """Work item links."""
+
     avatar: DevOpsWorkItemAvatar
 
     def __init__(
         self,
         avatar: DevOpsWorkItemAvatar,
     ) -> None:
+        """Initialize"""
         self.avatar = avatar
 
 
 class DevOpsWorkItemUser:
+    """Work item user."""
+
     display_name: str
     url: str
     links: DevOpsWorkItemLinks
@@ -45,6 +53,7 @@ class DevOpsWorkItemUser:
         image_url: None,
         descriptor: str,
     ) -> None:
+        """Initialize"""
         self.display_name = display_name
         self.url = url
         self.links = links
@@ -55,6 +64,8 @@ class DevOpsWorkItemUser:
 
 
 class DevOpsWorkItemValueFields:
+    """Azure DevOps Work Item Value Fields"""
+
     area_path: str
     team_project: str
     iteration_path: str
@@ -89,6 +100,7 @@ class DevOpsWorkItemValueFields:
         microsoft_vsts_common_state_change_date: datetime,
         microsoft_vsts_common_priority: int,
     ) -> None:
+        """Initialize"""
         self.area_path = area_path
         self.team_project = team_project
         self.iteration_path = iteration_path
@@ -107,6 +119,8 @@ class DevOpsWorkItemValueFields:
 
 
 class DevOpsWorkItemValue:
+    """Azure DevOps Work Item Value"""
+
     id: int
     rev: int
     fields: DevOpsWorkItemValueFields
@@ -119,6 +133,7 @@ class DevOpsWorkItemValue:
         fields: DevOpsWorkItemValueFields,
         url: str,
     ) -> None:
+        """Initialize"""
         self.id = id
         self.rev = rev
         self.fields = fields
@@ -126,6 +141,8 @@ class DevOpsWorkItemValue:
 
 
 class DevOpsWorkItem:
+    """Azure DevOps Work Item"""
+
     count: int
     value: list[DevOpsWorkItemValue]
 
@@ -134,5 +151,6 @@ class DevOpsWorkItem:
         count: int,
         value: list[DevOpsWorkItemValue],
     ) -> None:
+        """Initialize"""
         self.count = count
         self.value = value

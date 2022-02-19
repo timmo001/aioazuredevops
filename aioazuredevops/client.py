@@ -5,7 +5,7 @@ import aiohttp
 
 from aioazuredevops.builds import DevOpsBuild, DevOpsBuildDefinition, DevOpsBuildLinks
 from aioazuredevops.core import DevOpsLinks, DevOpsProject, DevOpsTeam
-from aioazuredevops.wiql import DevOpsWiqlResult, DevOpsWiqlColumn, DevOpsWiqlWorkItem
+from aioazuredevops.wiql import DevOpsWiqlColumn, DevOpsWiqlResult, DevOpsWiqlWorkItem
 from aioazuredevops.work_item import (
     DevOpsWorkItem,
     DevOpsWorkItemAvatar,
