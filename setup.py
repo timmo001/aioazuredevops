@@ -6,10 +6,11 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="aioazuredevops",
-    version="1.3.5",
+    version="1.4.0",
     author="Timmo",
     author_email="contact@timmo.xyz",
     description="Get data from the Azure DevOps API.",
+    license="MIT",
     long_description=LONG,
     long_description_content_type="text/markdown",
     install_requires=[
