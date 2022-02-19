@@ -1,13 +1,13 @@
 """Enable CLI."""
+from __future__ import typing
+
 import asyncio
-import json
-from typing import List
 
 import click
 
+from aioazuredevops.builds import DevOpsBuild
 from aioazuredevops.client import DevOpsClient
 from aioazuredevops.core import DevOpsProject
-from aioazuredevops.builds import DevOpsBuild
 
 
 @click.command()
@@ -36,7 +36,7 @@ async def handle(organization: str, project: str, pat: str = None) -> None:
         print(doProject.name)
         print(doProject.description)
     print("Builds:")
-    builds: List[DevOpsBuild] = await client.get_builds(
+    builds: list[DevOpsBuild] = await client.get_builds(
         organization,
         project,
         "?queryOrder=queueTimeDescending&maxBuildsPerDefinition=1",

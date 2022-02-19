@@ -1,14 +1,12 @@
 """Get data from the Azure DevOps API."""
-import asyncio
-import json
-import sys
-from datetime import datetime, timedelta
-from typing import List
+from __future__ import typing
+
+from datetime import datetime
 
 import aiohttp
 
-from aioazuredevops.core import DevOpsLinks, DevOpsProject, DevOpsTeam
 from aioazuredevops.builds import DevOpsBuild, DevOpsBuildDefinition, DevOpsBuildLinks
+from aioazuredevops.core import DevOpsLinks, DevOpsProject, DevOpsTeam
 
 
 class DevOpsClient:
@@ -248,7 +246,8 @@ class DevOpsClient:
                     if "visibility" in build["project"]
                     else None,
                     datetime.strptime(
-                        build["project"]["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ",
+                        build["project"]["lastUpdateTime"],
+                        "%Y-%m-%dT%H:%M:%S.%fZ",
                     )
                     if "lastUpdateTime" in build["project"]
                     else None,

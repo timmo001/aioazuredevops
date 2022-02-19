@@ -1,5 +1,5 @@
 """DevOps Builds. https://docs.microsoft.com/en-gb/rest/api/azure/devops/build/builds?view=azure-devops-rest-5.1"""
-from datetime import datetime
+from __future__ import typing
 
 from aioazuredevops.core import DevOpsProject
 
