@@ -2,6 +2,8 @@
 Work items in a project
 https://docs.microsoft.com/en-gb/rest/api/azure/devops/wit/work-items/list?view=azure-devops-rest-6.0
 """
+from __future__ import annotations
+
 from datetime import datetime
 from uuid import UUID
 
