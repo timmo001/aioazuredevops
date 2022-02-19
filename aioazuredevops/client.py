@@ -1,4 +1,4 @@
-"""Get data from the Azure DevOps API."""
+"""Get data from the Azure DevOps API"""
 from __future__ import typing
 
 from datetime import datetime
@@ -17,17 +17,14 @@ class DevOpsClient:
         self._authorized = False
         self._pat = None
 
-    async def fetch(
-        self, session: aiohttp.ClientSession, url: str
-    ) -> aiohttp.ClientResponse:
+    async def fetch(self, session: aiohttp.ClientSession, url: str) -> aiohttp.ClientResponse:
         """Runs a GET request and returns response"""
         if self._pat is None:
             return await session.get(url)
-        else:
-            return await session.get(
-                url,
-                headers={"Authorization": aiohttp.BasicAuth("", self._pat).encode()},
-            )
+        return await session.get(
+            url,
+            headers={"Authorization": aiohttp.BasicAuth("", self._pat).encode()},
+        )
 
     async def authorize(self, pat: str, organization: str) -> None:
         """Authenticate."""
@@ -36,7 +33,7 @@ class DevOpsClient:
             response: aiohttp.ClientResponse = await self.fetch(
                 session, f"https://dev.azure.com/{organization}/_apis/projects"
             )
-            if response.status is 200:
+            if response.status == 200:
                 self._authorized = True
             else:
                 self._authorized = False
@@ -48,7 +45,7 @@ class DevOpsClient:
                 session,
                 f"https://dev.azure.com/{organization}/_apis/projects/{project}",
             )
-            if response.status is not 200:
+            if response.status != 200:
                 return None
             json = await response.json()
             if json is None:
@@ -83,14 +80,14 @@ class DevOpsClient:
 
     async def get_builds(
         self, organization: str, project: str, parameters: str
-    ) -> List[DevOpsBuild]:
+    ) -> list[DevOpsBuild]:
         """Get DevOps builds."""
         async with aiohttp.ClientSession() as session:
             response: aiohttp.ClientResponse = await self.fetch(
                 session,
                 f"https://dev.azure.com/{organization}/{project}/_apis/build/builds{parameters}",
             )
-            if response.status is not 200:
+            if response.status != 200:
                 return None
             json = await response.json()
             if json is None:
@@ -114,15 +111,9 @@ class DevOpsClient:
                         DevOpsBuildDefinition(
                             build["definition"]["id"],
                             build["definition"]["name"],
-                            build["definition"]["url"]
-                            if "url" in build["definition"]
-                            else None,
-                            build["definition"]["path"]
-                            if "path" in build["definition"]
-                            else None,
-                            build["definition"]["type"]
-                            if "type" in build["definition"]
-                            else None,
+                            build["definition"]["url"] if "url" in build["definition"] else None,
+                            build["definition"]["path"] if "path" in build["definition"] else None,
+                            build["definition"]["type"] if "type" in build["definition"] else None,
                             build["definition"]["queueStatus"]
                             if "queueStatus" in build["definition"]
                             else None,
@@ -138,12 +129,8 @@ class DevOpsClient:
                             build["project"]["description"]
                             if "description" in build["project"]
                             else None,
-                            build["project"]["url"]
-                            if "url" in build["project"]
-                            else None,
-                            build["project"]["state"]
-                            if "state" in build["project"]
-                            else None,
+                            build["project"]["url"] if "url" in build["project"] else None,
+                            build["project"]["state"] if "state" in build["project"] else None,
                             build["project"]["revision"]
                             if "revision" in build["project"]
                             else None,
@@ -160,12 +147,8 @@ class DevOpsClient:
                         if "project" in build
                         else None,
                         DevOpsBuildLinks(
-                            build["_links"]["self"]["href"]
-                            if "self" in build["_links"]
-                            else None,
-                            build["_links"]["web"]["href"]
-                            if "web" in build["_links"]
-                            else None,
+                            build["_links"]["self"]["href"] if "self" in build["_links"] else None,
+                            build["_links"]["web"]["href"] if "web" in build["_links"] else None,
                             build["_links"]["sourceVersionDisplayUri"]["href"]
                             if "sourceVersionDisplayUri" in build["_links"]
                             else None,
@@ -183,16 +166,14 @@ class DevOpsClient:
 
             return builds
 
-    async def get_build(
-        self, organization: str, project: str, build_id: int
-    ) -> DevOpsBuild:
+    async def get_build(self, organization: str, project: str, build_id: int) -> DevOpsBuild:
         """Get DevOps builds."""
         async with aiohttp.ClientSession() as session:
             response: aiohttp.ClientResponse = await self.fetch(
                 session,
                 f"https://dev.azure.com/{organization}/{project}/_apis/build/builds/{build_id}",
             )
-            if response.status is not 200:
+            if response.status != 200:
                 return None
             build = await response.json()
             if build is None:
@@ -213,38 +194,24 @@ class DevOpsClient:
                 DevOpsBuildDefinition(
                     build["definition"]["id"],
                     build["definition"]["name"],
-                    build["definition"]["url"]
-                    if "url" in build["definition"]
-                    else None,
-                    build["definition"]["path"]
-                    if "path" in build["definition"]
-                    else None,
-                    build["definition"]["type"]
-                    if "type" in build["definition"]
-                    else None,
+                    build["definition"]["url"] if "url" in build["definition"] else None,
+                    build["definition"]["path"] if "path" in build["definition"] else None,
+                    build["definition"]["type"] if "type" in build["definition"] else None,
                     build["definition"]["queueStatus"]
                     if "queueStatus" in build["definition"]
                     else None,
-                    build["definition"]["revision"]
-                    if "revision" in build["definition"]
-                    else None,
+                    build["definition"]["revision"] if "revision" in build["definition"] else None,
                 )
                 if "definition" in build
                 else None,
                 DevOpsProject(
                     build["project"]["id"],
                     build["project"]["name"],
-                    build["project"]["description"]
-                    if "description" in build["project"]
-                    else None,
+                    build["project"]["description"] if "description" in build["project"] else None,
                     build["project"]["url"] if "url" in build["project"] else None,
                     build["project"]["state"] if "state" in build["project"] else None,
-                    build["project"]["revision"]
-                    if "revision" in build["project"]
-                    else None,
-                    build["project"]["visibility"]
-                    if "visibility" in build["project"]
-                    else None,
+                    build["project"]["revision"] if "revision" in build["project"] else None,
+                    build["project"]["visibility"] if "visibility" in build["project"] else None,
                     datetime.strptime(
                         build["project"]["lastUpdateTime"],
                         "%Y-%m-%dT%H:%M:%S.%fZ",
@@ -255,21 +222,13 @@ class DevOpsClient:
                 if "project" in build
                 else None,
                 DevOpsBuildLinks(
-                    build["_links"]["self"]["href"]
-                    if "self" in build["_links"]
-                    else None,
-                    build["_links"]["web"]["href"]
-                    if "web" in build["_links"]
-                    else None,
+                    build["_links"]["self"]["href"] if "self" in build["_links"] else None,
+                    build["_links"]["web"]["href"] if "web" in build["_links"] else None,
                     build["_links"]["sourceVersionDisplayUri"]["href"]
                     if "sourceVersionDisplayUri" in build["_links"]
                     else None,
-                    build["_links"]["timeline"]["href"]
-                    if "timeline" in build["_links"]
-                    else None,
-                    build["_links"]["badge"]["href"]
-                    if "badge" in build["_links"]
-                    else None,
+                    build["_links"]["timeline"]["href"] if "timeline" in build["_links"] else None,
+                    build["_links"]["badge"]["href"] if "badge" in build["_links"] else None,
                 )
                 if "_links" in build
                 else None,
@@ -277,8 +236,10 @@ class DevOpsClient:
 
     @property
     def authorized(self):
+        """Is the client authorized."""
         return self._authorized
 
     @property
     def pat(self):
+        """Get the PAT."""
         return self._pat

@@ -1,4 +1,7 @@
-"""DevOps Core. https://docs.microsoft.com/en-gb/rest/api/azure/devops/core/?view=azure-devops-rest-6.0"""
+"""
+DevOps Core
+https://docs.microsoft.com/en-gb/rest/api/azure/devops/core/?view=azure-devops-rest-6.0
+"""
 from __future__ import typing
 
 from datetime import datetime
@@ -7,9 +10,7 @@ from datetime import datetime
 class DevOpsLinks:
     """Links."""
 
-    def __init__(
-        self, linkSelf: str = None, linkCollection: str = None, linkWeb: str = None
-    ):
+    def __init__(self, linkSelf: str = None, linkCollection: str = None, linkWeb: str = None):
         """Initialize"""
         self.self = linkSelf
         self.collection = linkCollection

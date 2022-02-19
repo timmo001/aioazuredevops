@@ -1,4 +1,4 @@
-"""Enable CLI."""
+"""Enable CLI"""
 from __future__ import typing
 
 import asyncio
@@ -20,6 +20,7 @@ def cli(organization: str, project: str, pat: str = None):
 
 
 async def handle(organization: str, project: str, pat: str = None) -> None:
+    """Handle CLI command"""
     client = DevOpsClient()
     if pat is not None:
         await client.authorize(pat, organization)

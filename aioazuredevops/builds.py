@@ -1,4 +1,7 @@
-"""DevOps Builds. https://docs.microsoft.com/en-gb/rest/api/azure/devops/build/builds?view=azure-devops-rest-6.0"""
+"""
+DevOps Builds
+https://docs.microsoft.com/en-gb/rest/api/azure/devops/build/builds?view=azure-devops-rest-6.0
+"""
 from __future__ import typing
 
 from aioazuredevops.core import DevOpsProject
@@ -9,14 +12,14 @@ class DevOpsBuildLinks:
 
     def __init__(
         self,
-        lSelf: str = None,
+        l_self: str = None,
         web: str = None,
         source_version_display_uri: str = None,
         timeline: str = None,
         badge: str = None,
     ):
         """Initialize"""
-        self.self = lSelf
+        self.self = l_self
         self.web = web
         self.source_version_display_uri = source_version_display_uri
         self.timeline = timeline
