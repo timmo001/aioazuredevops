@@ -17,6 +17,16 @@ class DevOpsClient:
         self._authorized = False
         self._pat = None
 
+    @property
+    def authorized(self):
+        """Is the client authorized."""
+        return self._authorized
+
+    @property
+    def pat(self):
+        """Get the PAT."""
+        return self._pat
+
     async def fetch(self, session: aiohttp.ClientSession, url: str) -> aiohttp.ClientResponse:
         """Runs a GET request and returns response"""
         if self._pat is None:
@@ -233,13 +243,3 @@ class DevOpsClient:
                 if "_links" in build
                 else None,
             )
-
-    @property
-    def authorized(self):
-        """Is the client authorized."""
-        return self._authorized
-
-    @property
-    def pat(self):
-        """Get the PAT."""
-        return self._pat
