@@ -54,7 +54,6 @@ class DevOpsClient:
         data: dict,
     ) -> aiohttp.ClientResponse:
         """Runs a POST request and returns response"""
-        print(url, data)
         if self._pat is None:
             return await session.post(
                 url,
