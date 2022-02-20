@@ -300,7 +300,7 @@ class DevOpsClient:
                 session,
                 f"https://dev.azure.com/{organization}/{project}/_apis/wit/wiql?api-version=6.0",
                 {
-                    "query": "Select [System.Id] From WorkItems",
+                    "query": f"Select [System.Id] From WorkItems Where [System.TeamProject] = '{project}'",
                 },
             )
             if response.status != 200:
