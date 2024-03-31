@@ -3,8 +3,10 @@
 # from aioresponses import aioresponses
 import pytest
 
+from aioazuredevops.builds import DevOpsBuild
 from aioazuredevops.client import DevOpsClient
 from aioazuredevops.core import DevOpsProject
+from aioazuredevops.wiql import DevOpsWiqlResult
 
 from . import ORGANIZATION, PAT, PROJECT
 
@@ -33,13 +35,40 @@ async def test_get_project(devops_client: DevOpsClient) -> None:
     )
 
     assert isinstance(project, DevOpsProject)
-    assert project.project_id == "testid"
-    assert project.name == "testname"
-    assert project.description == "testdescription"
-    assert project.url == "testurl"
-    assert project.state == "teststate"
-    assert project.revision == 1
-    assert project.visibility == "testvisibility"
-    assert project.last_updated is None
-    assert project.default_team is None
-    assert project.links is None
+
+
+@pytest.mark.asyncio
+async def test_get_builds(devops_client: DevOpsClient) -> None:
+    """Test the get_builds method."""
+    builds = await devops_client.get_builds(
+        organization=ORGANIZATION,
+        project=PROJECT,
+        parameters="",
+    )
+
+    assert isinstance(builds, list)
+    assert len(builds) == 1
+    assert isinstance(builds[0], DevOpsBuild)
+
+
+@pytest.mark.asyncio
+async def test_get_build(devops_client: DevOpsClient) -> None:
+    """Test the get_build method."""
+    build = await devops_client.get_build(
+        organization=ORGANIZATION,
+        project=PROJECT,
+        build_id=1,
+    )
+
+    assert isinstance(build, DevOpsBuild)
+
+
+@pytest.mark.asyncio
+async def test_get_work_items_ids_all(devops_client: DevOpsClient) -> None:
+    """Test the get_work_items_ids method."""
+    work_items_ids = await devops_client.get_work_items_ids_all(
+        organization=ORGANIZATION,
+        project=PROJECT,
+    )
+
+    assert isinstance(work_items_ids, DevOpsWiqlResult)

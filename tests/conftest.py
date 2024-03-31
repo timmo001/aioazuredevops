@@ -8,7 +8,15 @@ import pytest
 
 from aioazuredevops.client import BASE_URL, DevOpsClient
 
-from . import ORGANIZATION, PROJECT, RESPONSE_JSON_BASIC, RESPONSE_JSON_DEVOPS_PROJECT
+from . import (
+    ORGANIZATION,
+    PROJECT,
+    RESPONSE_JSON_BASIC,
+    RESPONSE_JSON_DEVOPS_BUILD,
+    RESPONSE_JSON_DEVOPS_BUILDS,
+    RESPONSE_JSON_DEVOPS_PROJECT,
+    RESPONSE_JSON_DEVOPS_WIQL_RESULT,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -43,6 +51,21 @@ def mock_aioresponse():
         mocker.get(
             f"{BASE_URL}/{ORGANIZATION}/_apis/projects/{PROJECT}",
             payload=RESPONSE_JSON_DEVOPS_PROJECT,
+            status=200,
+        )
+        mocker.get(
+            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds",
+            payload=RESPONSE_JSON_DEVOPS_BUILDS,
+            status=200,
+        )
+        mocker.get(
+            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds/1",
+            payload=RESPONSE_JSON_DEVOPS_BUILD,
+            status=200,
+        )
+        mocker.post(
+            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/wiql?api-version=6.0",
+            payload=RESPONSE_JSON_DEVOPS_WIQL_RESULT,
             status=200,
         )
 
