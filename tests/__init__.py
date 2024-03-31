@@ -2,14 +2,23 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Coroutine
-from typing import Any, Final
-
-from aiohttp.test_utils import TestClient
+from typing import Final
 
 ORGANIZATION: Final[str] = "testorg"
 PROJECT: Final[str] = "testproject"
 PAT: Final[str] = "testpat"
 
+RESPONSE_JSON_BASIC = {"test": "test"}
 
-ClientSessionGenerator = Callable[..., Coroutine[Any, Any, TestClient]]
+RESPONSE_JSON_DEVOPS_PROJECT = {
+    "id": "testid",
+    "name": "testname",
+    "description": "testdescription",
+    "url": "testurl",
+    "state": "teststate",
+    "revision": 1,
+    "visibility": "testvisibility",
+    "last_updated": None,
+    "default_team": None,
+    "links": None,
+}
