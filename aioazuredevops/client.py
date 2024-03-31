@@ -147,8 +147,7 @@ class DevOpsClient:
             )
             if response.status != 200:
                 return None
-            json = await response.json()
-            if json is None:
+            if (json := await response.json()) is None:
                 return None
 
             builds = []
@@ -252,8 +251,7 @@ class DevOpsClient:
             )
             if response.status != 200:
                 return None
-            build = await response.json()
-            if build is None:
+            if (build := await response.json()) is None:
                 return None
 
             return DevOpsBuild(
@@ -351,8 +349,7 @@ class DevOpsClient:
             )
             if response.status != 200:
                 return None
-            data = await response.json()
-            if data is None:
+            if (data := await response.json()) is None:
                 return None
 
             return DevOpsWiqlResult(
@@ -390,8 +387,7 @@ class DevOpsClient:
             )
             if response.status != 200:
                 return None
-            data = await response.json()
-            if data is None:
+            if (data := await response.json()) is None:
                 return None
 
             return DevOpsWorkItem(
