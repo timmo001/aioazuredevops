@@ -1,7 +1,6 @@
 """Get data from the Azure DevOps API."""
 
 from datetime import datetime
-import re
 from typing import Final
 
 import aiohttp
@@ -19,13 +18,6 @@ from aioazuredevops.work_item import (
 )
 
 BASE_URL: Final[str] = "https://dev.azure.com"
-
-
-def _sanitize_project_name(project: str) -> str:
-    """Sanitize project name."""
-    if not re.match(r"^[\w\s]+$", project):
-        raise ValueError("Invalid project name")
-    return project
 
 
 class DevOpsClient:
@@ -108,7 +100,6 @@ class DevOpsClient:
         )
         if response.status != 200:
             return None
-
         if (json := await response.json()) is None:
             return None
 
@@ -299,8 +290,6 @@ class DevOpsClient:
         project: str,
     ) -> DevOpsWiqlResult | None:
         """Get Azure DevOps work item ids from wiql."""
-        project = _sanitize_project_name(project)
-
         response: aiohttp.ClientResponse = await self._post(
             f"{BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version=6.0",
             {
