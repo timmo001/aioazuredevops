@@ -9,9 +9,9 @@ PROJECT: Final[str] = "testproject"
 PAT: Final[str] = "testpat"
 
 
-RESPONSE_JSON_BASIC = {"test": "test"}
+RESPONSE_JSON_BASIC: Final[dict] = {"test": "test"}
 
-RESPONSE_JSON_DEVOPS_PROJECT = {
+RESPONSE_JSON_DEVOPS_PROJECT: Final[dict] = {
     "id": "testid",
     "name": "testname",
     "description": "testdescription",
@@ -25,7 +25,7 @@ RESPONSE_JSON_DEVOPS_PROJECT = {
 }
 
 
-RESPONSE_JSON_DEVOPS_BUILD_DEFINITION = {
+RESPONSE_JSON_DEVOPS_BUILD_DEFINITION: Final[dict] = {
     "id": 1,
     "name": "testname",
     "url": "testurl",
@@ -35,7 +35,7 @@ RESPONSE_JSON_DEVOPS_BUILD_DEFINITION = {
     "revision": 1,
 }
 
-RESPONSE_JSON_DEVOPS_BUILD = {
+RESPONSE_JSON_DEVOPS_BUILD: Final[dict] = {
     "id": 1,
     "buildNumber": "testbuildnumber",
     "status": "teststatus",
@@ -59,9 +59,9 @@ RESPONSE_JSON_DEVOPS_BUILD = {
 }
 
 
-RESPONSE_JSON_DEVOPS_BUILDS = {"value": [RESPONSE_JSON_DEVOPS_BUILD]}
+RESPONSE_JSON_DEVOPS_BUILDS: Final[dict] = {"value": [RESPONSE_JSON_DEVOPS_BUILD]}
 
-RESPONSE_JSON_DEVOPS_WIQL_RESULT = {
+RESPONSE_JSON_DEVOPS_WIQL_RESULT: Final[dict] = {
     "queryType": "testqueryType",
     "queryResultType": "testqueryResultType",
     "asOf": "testasOf",
@@ -80,7 +80,7 @@ RESPONSE_JSON_DEVOPS_WIQL_RESULT = {
     ],
 }
 
-RESPONSE_JSON_DEVOPS_WORK_ITEM = {
+RESPONSE_JSON_DEVOPS_WORK_ITEM: Final[dict] = {
     "id": 123,
     "rev": 234,
     "fields": {
@@ -100,7 +100,7 @@ RESPONSE_JSON_DEVOPS_WORK_ITEM = {
     "url": "testurl",
 }
 
-RESPONSE_JSON_DEVOPS_WORK_ITEMS = {
+RESPONSE_JSON_DEVOPS_WORK_ITEMS: Final[dict] = {
     "count": 1,
     "value": [
         RESPONSE_JSON_DEVOPS_WORK_ITEM,
