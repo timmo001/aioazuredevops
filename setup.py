@@ -1,25 +1,30 @@
-"""Setup configuration."""
-import setuptools
+"""Setup."""
+from setuptools import find_packages, setup
 
-with open("README.md", "r") as fh:
-    LONG = fh.read()
+# Get setup packages from requirements.txt
+with open("requirements_setup.txt", encoding="utf-8") as f:
+    requirements_setup = f.read().splitlines()
 
-setuptools.setup(
+# Get packages from requirements.txt
+with open("requirements.txt", encoding="utf-8") as f:
+    requirements = f.read().splitlines()
+
+with open("README.md", encoding="utf-8") as f:
+    readme = f.read()
+
+setup(
     name="aioazuredevops",
-    version="1.4.3",
-    author="Timmo",
-    author_email="contact@timmo.xyz",
-    description="Get data from the Azure DevOps API.",
-    license="MIT",
-    long_description=LONG,
+    author="Aidan Timson (Timmo)",
+    author_email="aidan@timmo.dev",
+    description="Get data from the Azure DevOps API",
+    keywords="aioazuredevops,api,async,asyncio,azure devops,devops,integration",
+    license="Apache-2.0",
+    long_description=readme,
     long_description_content_type="text/markdown",
-    install_requires=["aiohttp>=3.6.2", "click>=7.1.2"],
-    entry_points={"console_scripts": ["aioazuredevops = aioazuredevops.cli:cli"]},
     url="https://github.com/timmo001/aioazuredevops",
-    packages=setuptools.find_packages(),
-    classifiers=(
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ),
+    install_requires=requirements,
+    packages=find_packages(exclude=["tests", "generator"]),
+    python_requires=">=3.11",
+    setup_requires=requirements_setup,
+    use_incremental=True,
 )
