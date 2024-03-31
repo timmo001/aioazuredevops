@@ -1,4 +1,5 @@
 """Get data from the Azure DevOps API."""
+
 from datetime import datetime
 import re
 
@@ -109,11 +110,11 @@ class DevOpsClient:
             return DevOpsProject(
                 json["id"],
                 json["name"],
-                json["description"] if "description" in json else None,
-                json["url"] if "url" in json else None,
-                json["state"] if "state" in json else None,
-                json["revision"] if "revision" in json else None,
-                json["visibility"] if "visibility" in json else None,
+                json.get("description", None),
+                json.get("url", None),
+                json.get("state", None),
+                json.get("revision", None),
+                json.get("visibility", None),
                 datetime.strptime(json["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ")
                 if "lastUpdateTime" in json
                 else None,
@@ -155,55 +156,35 @@ class DevOpsClient:
                 builds.append(
                     DevOpsBuild(
                         build["id"],
-                        build["buildNumber"] if "buildNumber" in build else None,
-                        build["status"] if "status" in build else None,
-                        build["result"] if "result" in build else None,
-                        build["sourceBranch"] if "sourceBranch" in build else None,
-                        build["sourceVersion"] if "sourceVersion" in build else None,
-                        build["priority"] if "priority" in build else None,
-                        build["reason"] if "reason" in build else None,
-                        build["queueTime"] if "queueTime" in build else None,
-                        build["startTime"] if "startTime" in build else None,
-                        build["startTime"] if "startTime" in build else None,
+                        build.get("buildNumber", None),
+                        build.get("status", None),
+                        build.get("result", None),
+                        build.get("sourceBranch", None),
+                        build.get("sourceVersion", None),
+                        build.get("priority", None),
+                        build.get("reason", None),
+                        build.get("queueTime", None),
+                        build.get("startTime", None),
+                        build.get("startTime", None),
                         DevOpsBuildDefinition(
                             build["definition"]["id"],
                             build["definition"]["name"],
-                            build["definition"]["url"]
-                            if "url" in build["definition"]
-                            else None,
-                            build["definition"]["path"]
-                            if "path" in build["definition"]
-                            else None,
-                            build["definition"]["type"]
-                            if "type" in build["definition"]
-                            else None,
-                            build["definition"]["queueStatus"]
-                            if "queueStatus" in build["definition"]
-                            else None,
-                            build["definition"]["revision"]
-                            if "revision" in build["definition"]
-                            else None,
+                            build["definition"].get("url", None),
+                            build["definition"].get("path", None),
+                            build["definition"].get("type", None),
+                            build["definition"].get("queueStatus", None),
+                            build["definition"].get("revision", None),
                         )
                         if "definition" in build
                         else None,
                         DevOpsProject(
                             build["project"]["id"],
                             build["project"]["name"],
-                            build["project"]["description"]
-                            if "description" in build["project"]
-                            else None,
-                            build["project"]["url"]
-                            if "url" in build["project"]
-                            else None,
-                            build["project"]["state"]
-                            if "state" in build["project"]
-                            else None,
-                            build["project"]["revision"]
-                            if "revision" in build["project"]
-                            else None,
-                            build["project"]["visibility"]
-                            if "visibility" in build["project"]
-                            else None,
+                            build["project"].get("description", None),
+                            build["project"].get("url", None),
+                            build["project"].get("state", None),
+                            build["project"].get("revision", None),
+                            build["project"].get("visibility", None),
                             datetime.strptime(
                                 build["project"]["lastUpdateTime"],
                                 "%Y-%m-%dT%H:%M:%S.%fZ",
@@ -256,51 +237,35 @@ class DevOpsClient:
 
             return DevOpsBuild(
                 build["id"],
-                build["buildNumber"] if "buildNumber" in build else None,
-                build["status"] if "status" in build else None,
-                build["result"] if "result" in build else None,
-                build["sourceBranch"] if "sourceBranch" in build else None,
-                build["sourceVersion"] if "sourceVersion" in build else None,
-                build["priority"] if "priority" in build else None,
-                build["reason"] if "reason" in build else None,
-                build["queueTime"] if "queueTime" in build else None,
-                build["startTime"] if "startTime" in build else None,
-                build["startTime"] if "startTime" in build else None,
+                build.get("buildNumber", None),
+                build.get("status", None),
+                build.get("result", None),
+                build.get("sourceBranch", None),
+                build.get("sourceVersion", None),
+                build.get("priority", None),
+                build.get("reason", None),
+                build.get("queueTime", None),
+                build.get("startTime", None),
+                build.get("startTime", None),
                 DevOpsBuildDefinition(
                     build["definition"]["id"],
                     build["definition"]["name"],
-                    build["definition"]["url"]
-                    if "url" in build["definition"]
-                    else None,
-                    build["definition"]["path"]
-                    if "path" in build["definition"]
-                    else None,
-                    build["definition"]["type"]
-                    if "type" in build["definition"]
-                    else None,
-                    build["definition"]["queueStatus"]
-                    if "queueStatus" in build["definition"]
-                    else None,
-                    build["definition"]["revision"]
-                    if "revision" in build["definition"]
-                    else None,
+                    build["definition"].get("url", None),
+                    build["definition"].get("path", None),
+                    build["definition"].get("type", None),
+                    build["definition"].get("queueStatus", None),
+                    build["definition"].get("revision", None),
                 )
                 if "definition" in build
                 else None,
                 DevOpsProject(
                     build["project"]["id"],
                     build["project"]["name"],
-                    build["project"]["description"]
-                    if "description" in build["project"]
-                    else None,
-                    build["project"]["url"] if "url" in build["project"] else None,
-                    build["project"]["state"] if "state" in build["project"] else None,
-                    build["project"]["revision"]
-                    if "revision" in build["project"]
-                    else None,
-                    build["project"]["visibility"]
-                    if "visibility" in build["project"]
-                    else None,
+                    build["project"].get("description", None),
+                    build["project"].get("url", None),
+                    build["project"].get("state", None),
+                    build["project"].get("revision", None),
+                    build["project"].get("visibility", None),
                     datetime.strptime(
                         build["project"]["lastUpdateTime"],
                         "%Y-%m-%dT%H:%M:%S.%fZ",
