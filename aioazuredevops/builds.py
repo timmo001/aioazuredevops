@@ -25,7 +25,7 @@ class DevOpsBuildDefinition:
 
     build_id: int
     name: str
-    url: str | None | None = None
+    url: str | None = None
     path: str | None = None
     build_type: str | None = None
     queue_status: str | None = None
