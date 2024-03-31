@@ -1,7 +1,5 @@
 """Setup for tests."""
 
-from __future__ import annotations
-
 from typing import Final
 
 ORGANIZATION: Final[str] = "testorg"
