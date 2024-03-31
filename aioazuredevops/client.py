@@ -218,7 +218,7 @@ class DevOpsClient:
         project: str,
         build_id: int,
     ) -> DevOpsBuild | None:
-        """Get Azure DevOps builds."""
+        """Get Azure DevOps build."""
         response: aiohttp.ClientResponse = await self._get(
             f"{BASE_URL}/{organization}/{project}/_apis/build/builds/{build_id}"
         )
