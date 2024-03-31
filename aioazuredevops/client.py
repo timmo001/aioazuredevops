@@ -102,8 +102,8 @@ class DevOpsClient:
             )
             if response.status != 200:
                 return None
-            json = await response.json()
-            if json is None:
+
+            if (json := await response.json()) is None:
                 return None
 
             return DevOpsProject(
