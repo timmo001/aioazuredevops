@@ -7,6 +7,11 @@ from aioazuredevops.builds import DevOpsBuild
 from aioazuredevops.client import DevOpsClient
 from aioazuredevops.core import DevOpsProject
 from aioazuredevops.wiql import DevOpsWiqlResult
+from aioazuredevops.work_item import (
+    DevOpsWorkItem,
+    DevOpsWorkItemValue,
+    DevOpsWorkItemValueFields,
+)
 
 from . import ORGANIZATION, PAT, PROJECT
 
@@ -72,3 +77,19 @@ async def test_get_work_items_ids_all(devops_client: DevOpsClient) -> None:
     )
 
     assert isinstance(work_items_ids, DevOpsWiqlResult)
+
+
+@pytest.mark.asyncio
+async def test_get_work_items(devops_client: DevOpsClient) -> None:
+    """Test the get_work_items method."""
+    work_items = await devops_client.get_work_items(
+        organization=ORGANIZATION,
+        project=PROJECT,
+        ids=[1],
+    )
+
+    assert isinstance(work_items, DevOpsWorkItem)
+    assert work_items.count == 1
+    assert len(work_items.value) == 1
+    assert isinstance(work_items.value[0], DevOpsWorkItemValue)
+    assert isinstance(work_items.value[0].fields, DevOpsWorkItemValueFields)

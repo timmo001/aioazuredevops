@@ -16,6 +16,7 @@ from . import (
     RESPONSE_JSON_DEVOPS_BUILDS,
     RESPONSE_JSON_DEVOPS_PROJECT,
     RESPONSE_JSON_DEVOPS_WIQL_RESULT,
+    RESPONSE_JSON_DEVOPS_WORK_ITEMS,
 )
 
 
@@ -66,6 +67,11 @@ def mock_aioresponse():
         mocker.post(
             f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/wiql?api-version=6.0",
             payload=RESPONSE_JSON_DEVOPS_WIQL_RESULT,
+            status=200,
+        )
+        mocker.get(
+            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?ids=1&api-version=6.0",
+            payload=RESPONSE_JSON_DEVOPS_WORK_ITEMS,
             status=200,
         )
 
