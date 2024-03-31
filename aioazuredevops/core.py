@@ -11,7 +11,7 @@ from datetime import datetime
 class DevOpsLinks:
     """Links."""
 
-    self: str | None = None
+    l_self: str | None = None
     collection: str | None = None
     web: str | None = None
 
@@ -20,7 +20,7 @@ class DevOpsLinks:
 class DevOpsTeam:
     """DevOps Team."""
 
-    id: str
+    team_id: str
     name: str
     url: str | None = None
 
@@ -29,7 +29,7 @@ class DevOpsTeam:
 class DevOpsProject:
     """A DevOps Project."""
 
-    id: str
+    project_id: str
     name: str
     description: str | None = None
     url: str | None = None
