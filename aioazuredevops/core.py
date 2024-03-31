@@ -1,54 +1,41 @@
-"""
-DevOps Core
+"""DevOps Core.
+
 https://docs.microsoft.com/en-gb/rest/api/azure/devops/core/?view=azure-devops-rest-6.0
 """
+
+from dataclasses import dataclass
 from datetime import datetime
 
 
+@dataclass
 class DevOpsLinks:
     """Links."""
 
-    def __init__(self, linkSelf: str = None, linkCollection: str = None, linkWeb: str = None):
-        """Initialize"""
-        self.self = linkSelf
-        self.collection = linkCollection
-        self.web = linkWeb
+    l_self: str | None = None
+    collection: str | None = None
+    web: str | None = None
 
 
+@dataclass
 class DevOpsTeam:
     """DevOps Team."""
 
-    def __init__(self, id: str, name: str, url: str = None):
-        """Initialize"""
-        self.id = id
-        self.name = name
-        self.url = url
+    team_id: str
+    name: str
+    url: str | None = None
 
 
+@dataclass
 class DevOpsProject:
-    """A DevOps Project"""
+    """A DevOps Project."""
 
-    def __init__(
-        self,
-        id: str,
-        name: str,
-        description: str = None,
-        url: str = None,
-        state: str = None,
-        revision: int = None,
-        visibility: str = None,
-        last_updated: datetime = None,
-        default_team: DevOpsTeam = None,
-        links: DevOpsLinks = None,
-    ):
-        """Initialize"""
-        self.id = id
-        self.name = name
-        self.description = description
-        self.url = url
-        self.state = state
-        self.revision = revision
-        self.visibility = visibility
-        self.last_updated = last_updated
-        self.default_team = default_team
-        self.links = links
+    project_id: str
+    name: str
+    description: str | None = None
+    url: str | None = None
+    state: str | None = None
+    revision: int | None = None
+    visibility: str | None = None
+    last_updated: datetime | None = None
+    default_team: DevOpsTeam | None = None
+    links: DevOpsLinks | None = None
