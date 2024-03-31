@@ -7,7 +7,9 @@ from typing import Any, Final
 
 from aiohttp.test_utils import TestClient
 
-TOKEN: Final[str] = "abc123"
+ORGANIZATION: Final[str] = "testorg"
+PROJECT: Final[str] = "testproject"
+PAT: Final[str] = "testpat"
 
 
 ClientSessionGenerator = Callable[..., Coroutine[Any, Any, TestClient]]
