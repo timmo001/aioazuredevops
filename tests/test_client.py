@@ -3,16 +3,9 @@
 # from aioresponses import aioresponses
 from aioresponses import aioresponses
 import pytest
+from syrupy.assertion import SnapshotAssertion
 
-from aioazuredevops.builds import DevOpsBuild
 from aioazuredevops.client import BASE_URL, DevOpsClient
-from aioazuredevops.core import DevOpsProject
-from aioazuredevops.wiql import DevOpsWiqlResult
-from aioazuredevops.work_item import (
-    DevOpsWorkItem,
-    DevOpsWorkItemValue,
-    DevOpsWorkItemValueFields,
-)
 
 from . import ORGANIZATION, PAT, PROJECT
 
@@ -22,8 +15,9 @@ EMPTY_PROJECT_NAME = "emptyproject"
 
 @pytest.mark.asyncio
 async def test_authorize(
-    mock_aioresponse: aioresponses,
     devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
 ) -> None:
     """Test the authorize method."""
     assert not devops_client.authorized
@@ -55,8 +49,9 @@ async def test_authorize(
 
 @pytest.mark.asyncio
 async def test_get_project(
-    mock_aioresponse: aioresponses,
     devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
 ) -> None:
     """Test the get_project method."""
     project = await devops_client.get_project(
@@ -64,8 +59,9 @@ async def test_get_project(
         project=PROJECT,
     )
 
-    assert isinstance(project, DevOpsProject)
-    assert project.project_id == "testid"
+    assert project == snapshot(
+        name="project",
+    )
 
     # Test with authorization (GET with PAT)
     assert await devops_client.authorize(
@@ -108,8 +104,9 @@ async def test_get_project(
 
 @pytest.mark.asyncio
 async def test_get_builds(
-    mock_aioresponse: aioresponses,
     devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
 ) -> None:
     """Test the get_builds method."""
     builds = await devops_client.get_builds(
@@ -118,9 +115,9 @@ async def test_get_builds(
         parameters="",
     )
 
-    assert isinstance(builds, list)
-    assert len(builds) == 1
-    assert isinstance(builds[0], DevOpsBuild)
+    assert builds == snapshot(
+        name="builds",
+    )
 
     # Test with bad request
     mock_aioresponse.get(
@@ -154,8 +151,9 @@ async def test_get_builds(
 
 @pytest.mark.asyncio
 async def test_get_build(
-    mock_aioresponse: aioresponses,
     devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
 ) -> None:
     """Test the get_build method."""
     build = await devops_client.get_build(
@@ -164,7 +162,9 @@ async def test_get_build(
         build_id=1,
     )
 
-    assert isinstance(build, DevOpsBuild)
+    assert build == snapshot(
+        name="build",
+    )
 
     # Test with bad request
     mock_aioresponse.get(
@@ -198,8 +198,9 @@ async def test_get_build(
 
 @pytest.mark.asyncio
 async def test_get_work_items_ids_all(
-    mock_aioresponse: aioresponses,
     devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
 ) -> None:
     """Test the get_work_items_ids method."""
     work_items_ids = await devops_client.get_work_items_ids_all(
@@ -207,7 +208,9 @@ async def test_get_work_items_ids_all(
         project=PROJECT,
     )
 
-    assert isinstance(work_items_ids, DevOpsWiqlResult)
+    assert work_items_ids == snapshot(
+        name="work_items_ids",
+    )
 
     # Test with authorization (POST with PAT)
     assert await devops_client.authorize(
@@ -220,7 +223,9 @@ async def test_get_work_items_ids_all(
         project=PROJECT,
     )
 
-    assert isinstance(work_items_ids, DevOpsWiqlResult)
+    assert work_items_ids == snapshot(
+        name="work_items_ids_authorized",
+    )
 
     # Test with client error
     mock_aioresponse.post(
@@ -252,8 +257,9 @@ async def test_get_work_items_ids_all(
 
 @pytest.mark.asyncio
 async def test_get_work_items(
-    mock_aioresponse: aioresponses,
     devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
 ) -> None:
     """Test the get_work_items method."""
     work_items = await devops_client.get_work_items(
@@ -262,11 +268,9 @@ async def test_get_work_items(
         ids=[1],
     )
 
-    assert isinstance(work_items, DevOpsWorkItem)
-    assert work_items.count == 1
-    assert len(work_items.value) == 1
-    assert isinstance(work_items.value[0], DevOpsWorkItemValue)
-    assert isinstance(work_items.value[0].fields, DevOpsWorkItemValueFields)
+    assert work_items == snapshot(
+        name="work_items",
+    )
 
     # Test bad request
     mock_aioresponse.get(

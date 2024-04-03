@@ -1,0 +1,21 @@
+# serializer version: 1
+# name: test_get_build[build]
+  DevOpsBuild(build_id=1, build_number='testbuildnumber', status='teststatus', result='testresult', source_branch='testsourcebranch', source_version='testsourceversion', priority='testpriority', reason='testreason', queue_time='testqueuetime', start_time='teststarttime', finish_time='teststarttime', definition=DevOpsBuildDefinition(build_id=1, name='testname', url='testurl', path='testpath', build_type='testtype', queue_status='testqueuestatus', revision=1), project=DevOpsProject(project_id='testid', name='testname', description='testdescription', url='testurl', state='teststate', revision=1, visibility='testvisibility', last_updated=None, default_team=None, links=None), links=DevOpsBuildLinks(l_self='testself', web='testweb', source_version_display_uri='testsourceversiondisplayuri', timeline='testtimeline', badge='testbadge'))
+# ---
+# name: test_get_builds[builds]
+  list([
+    DevOpsBuild(build_id=1, build_number='testbuildnumber', status='teststatus', result='testresult', source_branch='testsourcebranch', source_version='testsourceversion', priority='testpriority', reason='testreason', queue_time='testqueuetime', start_time='teststarttime', finish_time='teststarttime', definition=DevOpsBuildDefinition(build_id=1, name='testname', url='testurl', path='testpath', build_type='testtype', queue_status='testqueuestatus', revision=1), project=DevOpsProject(project_id='testid', name='testname', description='testdescription', url='testurl', state='teststate', revision=1, visibility='testvisibility', last_updated=None, default_team=None, links=None), links=DevOpsBuildLinks(l_self='testself', web='testweb', source_version_display_uri='testsourceversiondisplayuri', timeline='testtimeline', badge='testbadge')),
+  ])
+# ---
+# name: test_get_project[project]
+  DevOpsProject(project_id='testid', name='testname', description='testdescription', url='testurl', state='teststate', revision=1, visibility='testvisibility', last_updated=None, default_team=None, links=None)
+# ---
+# name: test_get_work_items[work_items]
+  DevOpsWorkItem(count=1, value=[DevOpsWorkItemValue(id=123, rev=234, fields=DevOpsWorkItemValueFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date={'System.Id': 123, 'System.Title': 'testTitle', 'System.AreaPath': 'testAreaPath', 'System.TeamProject': 'testTeamProject', 'System.IterationPath': 'testIterationPath', 'System.WorkItemType': 'testWorkItemType', 'System.State': 'testState', 'System.Reason': 'testReason', 'System.CreatedDate': 'testCreatedDate', 'System.ChangedDate': 'testChangedDate', 'System.CommentCount': 1, 'Microsoft.VSTS.Common.Priority': 1}, microsoft_vsts_common_priority=1), url='testurl')])
+# ---
+# name: test_get_work_items_ids_all[work_items_ids]
+  DevOpsWiqlResult(query_type='testqueryType', query_result_type='testqueryResultType', as_of='testasOf', columns=[DevOpsWiqlColumn(reference_name='testreferenceName', name='testname', url=None)], work_items=[DevOpsWiqlWorkItem(id=123, url='testurl')])
+# ---
+# name: test_get_work_items_ids_all[work_items_ids_authorized]
+  DevOpsWiqlResult(query_type='testqueryType', query_result_type='testqueryResultType', as_of='testasOf', columns=[DevOpsWiqlColumn(reference_name='testreferenceName', name='testname', url=None)], work_items=[DevOpsWiqlWorkItem(id=123, url='testurl')])
+# ---
