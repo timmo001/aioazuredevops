@@ -5,15 +5,7 @@ from aioresponses import aioresponses
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from aioazuredevops.builds import DevOpsBuild
 from aioazuredevops.client import BASE_URL, DevOpsClient
-from aioazuredevops.core import DevOpsProject
-from aioazuredevops.wiql import DevOpsWiqlResult
-from aioazuredevops.work_item import (
-    DevOpsWorkItem,
-    DevOpsWorkItemValue,
-    DevOpsWorkItemValueFields,
-)
 
 from . import ORGANIZATION, PAT, PROJECT
 
