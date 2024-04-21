@@ -1,6 +1,5 @@
 """Test the http client module."""
 
-# from aioresponses import aioresponses
 from aioresponses import aioresponses
 import pytest
 from syrupy.assertion import SnapshotAssertion
