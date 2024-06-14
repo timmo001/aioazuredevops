@@ -123,3 +123,26 @@ RESPONSE_JSON_DEVOPS_WORK_ITEMS: Final[dict] = {
         RESPONSE_JSON_DEVOPS_WORK_ITEM,
     ],
 }
+
+RESPONSE_JSON_DEVOPS_WORK_ITEM_TYPES: Final[dict] = {
+    "count": 1,
+    "value": [
+        {
+            "name": "testname",
+            "referenceName": "testreferenceName",
+            "description": "testdescription",
+            "color": "testcolor",
+            "icon": {
+                "id": "testid",
+                "url": "testurl",
+            },
+            "isDisabled": False,
+            "xmlForm": "testxmlForm",
+            "fields": [],
+            "fieldInstances": [],
+            "transitions": {},
+            "states": [],
+            "url": "testurl",
+        }
+    ],
+}

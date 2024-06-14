@@ -16,6 +16,8 @@ from . import (
     RESPONSE_JSON_DEVOPS_BUILDS,
     RESPONSE_JSON_DEVOPS_PROJECT,
     RESPONSE_JSON_DEVOPS_WIQL_RESULT,
+    RESPONSE_JSON_DEVOPS_WORK_ITEM,
+    RESPONSE_JSON_DEVOPS_WORK_ITEM_TYPES,
     RESPONSE_JSON_DEVOPS_WORK_ITEMS,
 )
 
@@ -86,7 +88,13 @@ def mock_aioresponse():
         )
         mocker.get(
             f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems/1?api-version={DEFAULT_API_VERSION}&errorPolicy=omit",
-            payload=RESPONSE_JSON_DEVOPS_WORK_ITEMS["value"][0],
+            payload=RESPONSE_JSON_DEVOPS_WORK_ITEM,
+            status=200,
+            repeat=True,
+        )
+        mocker.get(
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitemtypes?api-version={DEFAULT_API_VERSION}",
+            payload=RESPONSE_JSON_DEVOPS_WORK_ITEM_TYPES,
             status=200,
             repeat=True,
         )

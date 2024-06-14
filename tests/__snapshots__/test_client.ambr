@@ -10,6 +10,16 @@
 # name: test_get_project[project]
   Project(id='testid', name='testname', description='testdescription', url='testurl', state='teststate', revision=1, visibility='testvisibility', capabilities=Capabilities(process_template=ProcessTemplate(template_name='Agile', template_type_id='abc123-abc1-abc1-abc1-abc123456789'), versioncontrol=VersionControl(source_control_type='Git', git_enabled='True', tfvc_enabled='False')), links=Links(links_self=LinkCollection(href='testself'), collection=LinkCollection(href='testcollection'), web=LinkCollection(href='testweb')), default_team=DefaultTeam(id='testid', name='testname', url='testurl'), last_update_time=None)
 # ---
+# name: test_get_work_item_types[work_item_types]
+  list([
+    WorkItemType(name='testname', reference_name='testreferenceName', description='testdescription', color='testcolor', icon=Icon(id='testid', url='testurl'), is_disabled=False, xml_form='testxmlForm', fields=[], field_instances=[], transitions={}, states=[], url='testurl'),
+  ])
+# ---
+# name: test_get_work_item_types[work_item_types_authorized]
+  list([
+    WorkItemType(name='testname', reference_name='testreferenceName', description='testdescription', color='testcolor', icon=Icon(id='testid', url='testurl'), is_disabled=False, xml_form='testxmlForm', fields=[], field_instances=[], transitions={}, states=[], url='testurl'),
+  ])
+# ---
 # name: test_get_work_items[work_items]
   WorkItems(count=1, value=[WorkItem(id=123, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl')])
 # ---
