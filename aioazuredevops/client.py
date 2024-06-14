@@ -81,7 +81,7 @@ class DevOpsClient:
         """Authorize the client."""
         self._pat = pat
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects"
+            f"{BASE_URL}/{organization}/_apis/projects?api-version={API_VERSION}"
         )
         if response.status == 200:
             self._authorized = True
@@ -97,7 +97,7 @@ class DevOpsClient:
     ) -> DevOpsProject | None:
         """Get Azure DevOps project."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects/{project}"
+            f"{BASE_URL}/{organization}/_apis/projects/{project}?api-version={API_VERSION}"
         )
         if response.status != 200:
             return None
@@ -139,7 +139,7 @@ class DevOpsClient:
     ) -> list[DevOpsBuild] | None:
         """Get Azure DevOps builds."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/{project}/_apis/build/builds{parameters}",
+            f"{BASE_URL}/{organization}/{project}/_apis/build/builds{parameters}&api-version={API_VERSION}",
         )
         if response.status != 200:
             return None
@@ -221,7 +221,7 @@ class DevOpsClient:
     ) -> DevOpsBuild | None:
         """Get Azure DevOps build."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/{project}/_apis/build/builds/{build_id}"
+            f"{BASE_URL}/{organization}/{project}/_apis/build/builds/{build_id}?api-version={API_VERSION}"
         )
         if response.status != 200:
             return None
