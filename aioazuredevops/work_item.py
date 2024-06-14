@@ -37,7 +37,7 @@ class DevOpsWorkItemUser:
 
 @dataclass
 class DevOpsWorkItemFields:
-    """Azure DevOps work item value fields."""
+    """Azure DevOps work item fields."""
 
     area_path: str
     team_project: str
@@ -58,7 +58,7 @@ class DevOpsWorkItemFields:
 
 @dataclass
 class DevOpsWorkItem:
-    """Azure DevOps work item value."""
+    """Azure DevOps work item."""
 
     id: int
     rev: int
