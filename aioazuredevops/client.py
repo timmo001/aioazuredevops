@@ -6,7 +6,7 @@ from typing import Final
 import aiohttp
 
 from aioazuredevops.builds import DevOpsBuild, DevOpsBuildDefinition, DevOpsBuildLinks
-from aioazuredevops.core import DevOpsLinks, DevOpsProject, DevOpsTeam
+from aioazuredevops.core import DevOpsLinks, DevOpsTeam, Project
 from aioazuredevops.wiql import DevOpsWiqlColumn, DevOpsWiqlResult, DevOpsWiqlWorkItem
 from aioazuredevops.work_item import (
     DevOpsWorkItem,
@@ -94,17 +94,17 @@ class DevOpsClient:
         self,
         organization: str,
         project: str,
-    ) -> DevOpsProject | None:
+    ) -> Project | None:
         """Get Azure DevOps project."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects/{project}?api-version={API_VERSION}"
+            f"{BASE_URL}/{organization}/_apis/projects/{project}?includeCapabilities=true&includeHistory=true&api-version={API_VERSION}"
         )
         if response.status != 200:
             return None
         if (json := await response.json()) is None:
             return None
 
-        return DevOpsProject(
+        return Project(
             json["id"],
             json["name"],
             json.get("description", None),
@@ -130,22 +130,6 @@ class DevOpsClient:
             if "_links" in json
             else None,
         )
-
-    async def get_project_properties(
-        self,
-        organization: str,
-        project: str,
-    ) -> dict | None:
-        """Get Azure DevOps project properties."""
-        response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects/{project}/properties?api-version={API_VERSION}"
-        )
-        if response.status != 200:
-            return None
-        if (json := await response.json()) is None:
-            return None
-
-        return json
 
     async def get_builds(
         self,
@@ -188,7 +172,7 @@ class DevOpsClient:
                     )
                     if "definition" in build
                     else None,
-                    DevOpsProject(
+                    Project(
                         build["project"]["id"],
                         build["project"]["name"],
                         build["project"].get("description", None),
@@ -267,7 +251,7 @@ class DevOpsClient:
             )
             if "definition" in build
             else None,
-            DevOpsProject(
+            Project(
                 build["project"]["id"],
                 build["project"]["name"],
                 build["project"].get("description", None),

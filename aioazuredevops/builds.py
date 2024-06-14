@@ -5,7 +5,7 @@ https://docs.microsoft.com/en-gb/rest/api/azure/devops/build/builds?view=azure-d
 
 from dataclasses import dataclass
 
-from .core import DevOpsProject
+from .core import Project
 
 
 @dataclass
@@ -48,5 +48,5 @@ class DevOpsBuild:
     start_time: str | None = None
     finish_time: str | None = None
     definition: DevOpsBuildDefinition | None = None
-    project: DevOpsProject | None = None
+    project: Project | None = None
     links: DevOpsBuildLinks | None = None
