@@ -42,7 +42,7 @@ class DefaultTeam:
 
 
 @dataclass
-class Collection:
+class LinkCollection:
     """Azure DevOps project collection."""
 
     href: str
@@ -52,9 +52,9 @@ class Collection:
 class Links:
     """Azure DevOps project links."""
 
-    links_self: Collection
-    collection: Collection
-    web: Collection
+    links_self: LinkCollection
+    collection: LinkCollection
+    web: LinkCollection
 
 
 @dataclass
@@ -66,9 +66,9 @@ class Project:
     description: str
     url: str
     state: str
-    capabilities: Capabilities
     revision: int
-    links: Links
     visibility: str
-    default_team: DefaultTeam
-    last_update_time: datetime
+    capabilities: Capabilities | None = None
+    links: Links | None = None
+    default_team: DefaultTeam | None = None
+    last_update_time: datetime | None = None
