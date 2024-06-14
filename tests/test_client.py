@@ -196,13 +196,13 @@ async def test_get_build(
 
 
 @pytest.mark.asyncio
-async def test_get_work_items_ids_all(
+async def test_get_work_items_ids(
     devops_client: DevOpsClient,
     mock_aioresponse: aioresponses,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the get_work_items_ids method."""
-    work_items_ids = await devops_client.get_work_item_ids_from_wiql(
+    work_items_ids = await devops_client.get_work_item_ids(
         organization=ORGANIZATION,
         project=PROJECT,
     )
@@ -217,7 +217,7 @@ async def test_get_work_items_ids_all(
         organization=ORGANIZATION,
     )
 
-    work_items_ids = await devops_client.get_work_item_ids_from_wiql(
+    work_items_ids = await devops_client.get_work_item_ids(
         organization=ORGANIZATION,
         project=PROJECT,
     )
@@ -232,7 +232,7 @@ async def test_get_work_items_ids_all(
         status=400,
     )
 
-    bad_work_items_ids = await devops_client.get_work_item_ids_from_wiql(
+    bad_work_items_ids = await devops_client.get_work_item_ids(
         organization=ORGANIZATION,
         project=BAD_PROJECT_NAME,
     )
@@ -246,7 +246,7 @@ async def test_get_work_items_ids_all(
         status=200,
     )
 
-    empty_work_items_ids = await devops_client.get_work_item_ids_from_wiql(
+    empty_work_items_ids = await devops_client.get_work_item_ids(
         organization=ORGANIZATION,
         project=EMPTY_PROJECT_NAME,
     )
