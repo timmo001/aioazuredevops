@@ -310,7 +310,7 @@ class DevOpsClient:
         response: aiohttp.ClientResponse = await self._post(
             f"{BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version={API_VERSION}",
             {
-                "query": f"Select [System.Id] From WorkItems Where [System.TeamProject] = '{project}'",  # noqa: S608
+                "query": "SELECT [System.Id] From workitems",
             },
         )
         if response.status != 200:
