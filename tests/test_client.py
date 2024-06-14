@@ -4,7 +4,7 @@ from aioresponses import aioresponses
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from aioazuredevops.client import DEFAULT_BASE_URL, DevOpsClient
+from aioazuredevops.client import DEFAULT_API_VERSION, DEFAULT_BASE_URL, DevOpsClient
 
 from . import ORGANIZATION, PAT, PROJECT
 
@@ -33,7 +33,7 @@ async def test_authorize(
     # Test with unauthorized (GET with PAT)
     mock_aioresponse.clear()
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects?api-version={DEFAULT_API_VERSION}",
         status=401,
     )
 
@@ -75,7 +75,7 @@ async def test_get_project(
 
     # Test with client error
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{BAD_PROJECT_NAME}",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{BAD_PROJECT_NAME}?api-version={DEFAULT_API_VERSION}",
         status=400,
     )
 
@@ -88,7 +88,7 @@ async def test_get_project(
 
     # Test with empty response
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{EMPTY_PROJECT_NAME}",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{EMPTY_PROJECT_NAME}?api-version={DEFAULT_API_VERSION}",
         payload=None,
         status=200,
     )
@@ -120,7 +120,7 @@ async def test_get_builds(
 
     # Test with bad request
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/build/builds",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/build/builds?api-version={DEFAULT_API_VERSION}",
         status=400,
     )
 
@@ -134,7 +134,7 @@ async def test_get_builds(
 
     # Test with empty response
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/build/builds",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/build/builds?api-version={DEFAULT_API_VERSION}",
         payload=None,
         status=200,
     )
@@ -167,7 +167,7 @@ async def test_get_build(
 
     # Test with bad request
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/build/builds/1",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/build/builds/1?api-version={DEFAULT_API_VERSION}",
         status=400,
     )
 
@@ -181,7 +181,7 @@ async def test_get_build(
 
     # Test with empty response
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/build/builds/1",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/build/builds/1?api-version={DEFAULT_API_VERSION}",
         payload=None,
         status=200,
     )
@@ -228,7 +228,7 @@ async def test_get_work_items_ids_all(
 
     # Test with client error
     mock_aioresponse.post(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/wiql?api-version=7.2-preview",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/wiql?api-version={DEFAULT_API_VERSION}",
         status=400,
     )
 
@@ -241,7 +241,7 @@ async def test_get_work_items_ids_all(
 
     # Test with empty response
     mock_aioresponse.post(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/wiql?api-version=7.2-preview",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/wiql?api-version={DEFAULT_API_VERSION}",
         payload=None,
         status=200,
     )
@@ -273,7 +273,7 @@ async def test_get_work_items(
 
     # Test bad request
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version=7.2-preview",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version={DEFAULT_API_VERSION}",
         status=400,
     )
 
@@ -287,7 +287,7 @@ async def test_get_work_items(
 
     # Test with empty response
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version=7.2-preview",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version={DEFAULT_API_VERSION}",
         payload=None,
         status=200,
     )
