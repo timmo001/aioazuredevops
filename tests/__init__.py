@@ -78,6 +78,11 @@ RESPONSE_JSON_DEVOPS_BUILD: Final[dict] = {
 
 RESPONSE_JSON_DEVOPS_BUILDS: Final[dict] = {"value": [RESPONSE_JSON_DEVOPS_BUILD]}
 
+RESPONSE_JSON_DEVOPS_WIQL_WORK_ITEM: Final[dict] = {
+    "id": 123,
+    "url": "testurl",
+}
+
 RESPONSE_JSON_DEVOPS_WIQL_RESULT: Final[dict] = {
     "queryType": "testqueryType",
     "queryResultType": "testqueryResultType",
@@ -89,12 +94,7 @@ RESPONSE_JSON_DEVOPS_WIQL_RESULT: Final[dict] = {
             "url": None,
         }
     ],
-    "workItems": [
-        {
-            "id": 123,
-            "url": "testurl",
-        }
-    ],
+    "workItems": [RESPONSE_JSON_DEVOPS_WIQL_WORK_ITEM],
 }
 
 RESPONSE_JSON_DEVOPS_WORK_ITEM: Final[dict] = {

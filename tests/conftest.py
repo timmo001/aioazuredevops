@@ -81,7 +81,13 @@ def mock_aioresponse():
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?api-version={DEFAULT_API_VERSION}&errorPolicy=omit&ids=1",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?api-version={DEFAULT_API_VERSION}&errorPolicy=omit&ids={'%252C'.join(str(i) for i in [1]*200)}",
+            payload=RESPONSE_JSON_DEVOPS_WORK_ITEMS,
+            status=200,
+            repeat=True,
+        )
+        mocker.get(
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?api-version={DEFAULT_API_VERSION}&errorPolicy=omit&ids={'%252C'.join(str(i) for i in [1]*100)}",
             payload=RESPONSE_JSON_DEVOPS_WORK_ITEMS,
             status=200,
             repeat=True,

@@ -205,6 +205,7 @@ async def test_get_work_items_ids(
     work_items_ids = await devops_client.get_work_item_ids(
         organization=ORGANIZATION,
         project=PROJECT,
+        max_results=1,
     )
 
     assert work_items_ids == snapshot(
@@ -264,7 +265,7 @@ async def test_get_work_items(
     work_items = await devops_client.get_work_items(
         organization=ORGANIZATION,
         project=PROJECT,
-        ids=[1],
+        ids=[1] * 300,
     )
 
     assert work_items == snapshot(
