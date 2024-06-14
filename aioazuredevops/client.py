@@ -5,8 +5,8 @@ from typing import Final
 
 import aiohttp
 
-from aioazuredevops.builds import DevOpsBuild, DevOpsBuildDefinition, DevOpsBuildLinks
-from aioazuredevops.core import (
+from .models.builds import DevOpsBuild, DevOpsBuildDefinition, DevOpsBuildLinks
+from .models.core import (
     Capabilities,
     DefaultTeam,
     LinkCollection,
@@ -15,8 +15,8 @@ from aioazuredevops.core import (
     Project,
     VersionControl,
 )
-from aioazuredevops.wiql import WIQLColumn, WIQLResult, WIQLWorkItem
-from aioazuredevops.work_item import (
+from .models.wiql import WIQLColumn, WIQLResult, WIQLWorkItem
+from .models.work_item import (
     WorkItem,
     WorkItemAvatar,
     WorkItemFields,
@@ -25,14 +25,17 @@ from aioazuredevops.work_item import (
     WorkItemUser,
 )
 
-BASE_URL: Final[str] = "https://dev.azure.com"
-API_VERSION: Final[str] = "7.2-preview"
+DEFAULT_BASE_URL: Final[str] = "https://dev.azure.com"
+DEFAULT_API_VERSION: Final[str] = "7.2-preview"
 
 
 class DevOpsClient:
     """Client for Azure DevOps."""
 
-    def __init__(self, session: aiohttp.ClientSession) -> None:
+    def __init__(
+        self,
+        session: aiohttp.ClientSession,
+    ) -> None:
         """Initilalize."""
         self._authorized: bool = False
         self._pat: str | None = None
@@ -89,7 +92,7 @@ class DevOpsClient:
         """Authorize the client."""
         self._pat = pat
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects?api-version={API_VERSION}"
+            f"{DEFAULT_BASE_URL}/{organization}/_apis/projects?api-version={DEFAULT_API_VERSION}"
         )
         if response.status == 200:
             self._authorized = True
@@ -105,7 +108,7 @@ class DevOpsClient:
     ) -> Project | None:
         """Get Azure DevOps project."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects/{project}?includeCapabilities=true&includeHistory=true&api-version={API_VERSION}"
+            f"{DEFAULT_BASE_URL}/{organization}/_apis/projects/{project}?includeCapabilities=true&includeHistory=true&api-version={DEFAULT_API_VERSION}"
         )
         if response.status != 200:
             return None
@@ -155,7 +158,7 @@ class DevOpsClient:
     ) -> list[DevOpsBuild] | None:
         """Get Azure DevOps builds."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/{project}/_apis/build/builds{parameters}&api-version={API_VERSION}",
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/build/builds{parameters}&api-version={DEFAULT_API_VERSION}",
         )
         if response.status != 200:
             return None
@@ -237,7 +240,7 @@ class DevOpsClient:
     ) -> DevOpsBuild | None:
         """Get Azure DevOps build."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/{project}/_apis/build/builds/{build_id}?api-version={API_VERSION}"
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/build/builds/{build_id}?api-version={DEFAULT_API_VERSION}"
         )
         if response.status != 200:
             return None
@@ -308,7 +311,7 @@ class DevOpsClient:
     ) -> WIQLResult | None:
         """Get Azure DevOps work item ids from wiql."""
         response: aiohttp.ClientResponse = await self._post(
-            f"{BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version={API_VERSION}",
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version={DEFAULT_API_VERSION}",
             {
                 "query": "SELECT [System.Id] From workitems",
             },
@@ -367,7 +370,7 @@ class DevOpsClient:
     ) -> WorkItems | None:
         """Get Azure DevOps work items."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/{project}/_apis/wit/workitems?ids={','.join(str(id) for id in ids)}&errorPolicy=omit&api-version={API_VERSION}"
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/wit/workitems?ids={','.join(str(id) for id in ids)}&errorPolicy=omit&api-version={DEFAULT_API_VERSION}"
         )
         if response.status != 200:
             return None

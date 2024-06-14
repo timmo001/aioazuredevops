@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 from aioresponses import aioresponses
 import pytest
 
-from aioazuredevops.client import BASE_URL, DevOpsClient
+from aioazuredevops.client import DEFAULT_BASE_URL, DevOpsClient
 
 from . import (
     ORGANIZATION,
@@ -25,61 +25,61 @@ def mock_aioresponse():
     """Return a client session."""
     with aioresponses() as mocker:
         mocker.get(
-            f"{BASE_URL}/",
+            f"{DEFAULT_BASE_URL}/",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}/_apis",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}/_apis/projects",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}/_apis/projects/{PROJECT}",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{PROJECT}",
             payload=RESPONSE_JSON_DEVOPS_PROJECT,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds",
             payload=RESPONSE_JSON_DEVOPS_BUILDS,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds/1",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds/1",
             payload=RESPONSE_JSON_DEVOPS_BUILD,
             status=200,
             repeat=True,
         )
         mocker.post(
-            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/wiql?api-version=7.2-preview",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/wiql?api-version=7.2-preview",
             payload=RESPONSE_JSON_DEVOPS_WIQL_RESULT,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?ids=1&api-version=7.2-preview",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?ids=1&api-version=7.2-preview",
             payload=RESPONSE_JSON_DEVOPS_WORK_ITEMS,
             status=200,
             repeat=True,
