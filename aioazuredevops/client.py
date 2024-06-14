@@ -18,6 +18,7 @@ from aioazuredevops.work_item import (
 )
 
 BASE_URL: Final[str] = "https://dev.azure.com"
+API_VERSION: Final[str] = "7.2"
 
 
 class DevOpsClient:
@@ -80,7 +81,7 @@ class DevOpsClient:
         """Authorize the client."""
         self._pat = pat
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects"
+            f"{BASE_URL}/{organization}/_apis/projects?api-version={API_VERSION}"
         )
         if response.status == 200:
             self._authorized = True
@@ -96,7 +97,7 @@ class DevOpsClient:
     ) -> DevOpsProject | None:
         """Get Azure DevOps project."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects/{project}"
+            f"{BASE_URL}/{organization}/_apis/projects/{project}?api-version={API_VERSION}"
         )
         if response.status != 200:
             return None
@@ -138,7 +139,7 @@ class DevOpsClient:
     ) -> list[DevOpsBuild] | None:
         """Get Azure DevOps builds."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/{project}/_apis/build/builds{parameters}",
+            f"{BASE_URL}/{organization}/{project}/_apis/build/builds{parameters}&api-version={API_VERSION}",
         )
         if response.status != 200:
             return None
@@ -220,7 +221,7 @@ class DevOpsClient:
     ) -> DevOpsBuild | None:
         """Get Azure DevOps build."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/{project}/_apis/build/builds/{build_id}"
+            f"{BASE_URL}/{organization}/{project}/_apis/build/builds/{build_id}?api-version={API_VERSION}"
         )
         if response.status != 200:
             return None
@@ -291,7 +292,7 @@ class DevOpsClient:
     ) -> DevOpsWiqlResult | None:
         """Get Azure DevOps work item ids from wiql."""
         response: aiohttp.ClientResponse = await self._post(
-            f"{BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version=6.0",
+            f"{BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version={API_VERSION}",
             {
                 "query": f"Select [System.Id] From WorkItems Where [System.TeamProject] = '{project}'",  # noqa: S608
             },
@@ -330,7 +331,7 @@ class DevOpsClient:
     ) -> DevOpsWorkItems | None:
         """Get Azure DevOps work items."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/{project}/_apis/wit/workitems?ids={','.join(str(id) for id in ids)}&api-version=6.0"
+            f"{BASE_URL}/{organization}/{project}/_apis/wit/workitems?ids={','.join(str(id) for id in ids)}&api-version={API_VERSION}"
         )
         if response.status != 200:
             return None
