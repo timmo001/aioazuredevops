@@ -5,38 +5,39 @@ https://docs.microsoft.com/en-gb/rest/api/azure/devops/wit/work-items/list?view=
 
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any
 from uuid import UUID
 
 
 @dataclass
-class DevOpsWorkItemAvatar:
+class WorkItemAvatar:
     """Work item avatar."""
 
     href: str
 
 
 @dataclass
-class DevOpsWorkItemLinks:
+class WorkItemLinks:
     """Work item links."""
 
-    avatar: DevOpsWorkItemAvatar
+    avatar: WorkItemAvatar
 
 
 @dataclass
-class DevOpsWorkItemUser:
+class WorkItemUser:
     """Work item user."""
 
     display_name: str
     url: str
-    links: DevOpsWorkItemLinks
     id: UUID
-    unique_name: None
-    image_url: None
+    unique_name: Any
+    image_url: Any
     descriptor: str
+    links: WorkItemLinks | None = None
 
 
 @dataclass
-class DevOpsWorkItemFields:
+class WorkItemFields:
     """Azure DevOps work item fields."""
 
     area_path: str
@@ -45,11 +46,11 @@ class DevOpsWorkItemFields:
     work_item_type: str
     state: str
     reason: str
-    assigned_to: DevOpsWorkItemUser | None
+    assigned_to: WorkItemUser | None
     created_date: datetime
-    created_by: DevOpsWorkItemUser | None
+    created_by: WorkItemUser | None
     changed_date: datetime
-    changed_by: DevOpsWorkItemUser | None
+    changed_by: WorkItemUser | None
     comment_count: int
     title: str
     microsoft_vsts_common_state_change_date: datetime
@@ -57,18 +58,18 @@ class DevOpsWorkItemFields:
 
 
 @dataclass
-class DevOpsWorkItem:
+class WorkItem:
     """Azure DevOps work item."""
 
     id: int
     rev: int
-    fields: DevOpsWorkItemFields
+    fields: WorkItemFields
     url: str
 
 
 @dataclass
-class DevOpsWorkItems:
+class WorkItems:
     """Azure DevOps work items."""
 
     count: int
-    value: list[DevOpsWorkItem]
+    value: list[WorkItem]

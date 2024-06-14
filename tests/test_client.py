@@ -202,7 +202,7 @@ async def test_get_work_items_ids_all(
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the get_work_items_ids method."""
-    work_items_ids = await devops_client.get_work_items_ids_all(
+    work_items_ids = await devops_client.get_work_item_ids_from_wiql(
         organization=ORGANIZATION,
         project=PROJECT,
     )
@@ -217,7 +217,7 @@ async def test_get_work_items_ids_all(
         organization=ORGANIZATION,
     )
 
-    work_items_ids = await devops_client.get_work_items_ids_all(
+    work_items_ids = await devops_client.get_work_item_ids_from_wiql(
         organization=ORGANIZATION,
         project=PROJECT,
     )
@@ -232,7 +232,7 @@ async def test_get_work_items_ids_all(
         status=400,
     )
 
-    bad_work_items_ids = await devops_client.get_work_items_ids_all(
+    bad_work_items_ids = await devops_client.get_work_item_ids_from_wiql(
         organization=ORGANIZATION,
         project=BAD_PROJECT_NAME,
     )
@@ -246,7 +246,7 @@ async def test_get_work_items_ids_all(
         status=200,
     )
 
-    empty_work_items_ids = await devops_client.get_work_items_ids_all(
+    empty_work_items_ids = await devops_client.get_work_item_ids_from_wiql(
         organization=ORGANIZATION,
         project=EMPTY_PROJECT_NAME,
     )
