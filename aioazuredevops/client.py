@@ -5,7 +5,7 @@ from typing import Final
 
 import aiohttp
 
-from .models.builds import DevOpsBuild, DevOpsBuildDefinition, DevOpsBuildLinks
+from .models.builds import Build, BuildDefinition, BuildLinks
 from .models.core import (
     Capabilities,
     DefaultTeam,
@@ -155,7 +155,7 @@ class DevOpsClient:
         organization: str,
         project: str,
         parameters: str,
-    ) -> list[DevOpsBuild] | None:
+    ) -> list[Build] | None:
         """Get Azure DevOps builds."""
         response: aiohttp.ClientResponse = await self._get(
             f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/build/builds{parameters}&api-version={DEFAULT_API_VERSION}",
@@ -168,7 +168,7 @@ class DevOpsClient:
         builds = []
         for build in json["value"]:
             builds.append(
-                DevOpsBuild(
+                Build(
                     build["id"],
                     build.get("buildNumber", None),
                     build.get("status", None),
@@ -180,7 +180,7 @@ class DevOpsClient:
                     build.get("queueTime", None),
                     build.get("startTime", None),
                     build.get("startTime", None),
-                    DevOpsBuildDefinition(
+                    BuildDefinition(
                         build["definition"]["id"],
                         build["definition"]["name"],
                         build["definition"].get("url", None),
@@ -208,7 +208,7 @@ class DevOpsClient:
                     )
                     if "project" in build
                     else None,
-                    DevOpsBuildLinks(
+                    BuildLinks(
                         build["_links"]["self"]["href"]
                         if "self" in build["_links"]
                         else None,
@@ -237,7 +237,7 @@ class DevOpsClient:
         organization: str,
         project: str,
         build_id: int,
-    ) -> DevOpsBuild | None:
+    ) -> Build | None:
         """Get Azure DevOps build."""
         response: aiohttp.ClientResponse = await self._get(
             f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/build/builds/{build_id}?api-version={DEFAULT_API_VERSION}"
@@ -247,7 +247,7 @@ class DevOpsClient:
         if (build := await response.json()) is None:
             return None
 
-        return DevOpsBuild(
+        return Build(
             build["id"],
             build.get("buildNumber", None),
             build.get("status", None),
@@ -259,7 +259,7 @@ class DevOpsClient:
             build.get("queueTime", None),
             build.get("startTime", None),
             build.get("startTime", None),
-            DevOpsBuildDefinition(
+            BuildDefinition(
                 build["definition"]["id"],
                 build["definition"]["name"],
                 build["definition"].get("url", None),
@@ -287,7 +287,7 @@ class DevOpsClient:
             )
             if "project" in build
             else None,
-            DevOpsBuildLinks(
+            BuildLinks(
                 build["_links"]["self"]["href"] if "self" in build["_links"] else None,
                 build["_links"]["web"]["href"] if "web" in build["_links"] else None,
                 build["_links"]["sourceVersionDisplayUri"]["href"]

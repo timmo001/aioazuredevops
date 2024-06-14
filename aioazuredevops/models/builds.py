@@ -9,7 +9,7 @@ from .core import Project
 
 
 @dataclass
-class DevOpsBuildLinks:
+class BuildLinks:
     """DevOps build links."""
 
     l_self: str | None = None
@@ -20,7 +20,7 @@ class DevOpsBuildLinks:
 
 
 @dataclass
-class DevOpsBuildDefinition:
+class BuildDefinition:
     """DevOps build definition."""
 
     build_id: int
@@ -33,7 +33,7 @@ class DevOpsBuildDefinition:
 
 
 @dataclass
-class DevOpsBuild:
+class Build:
     """DevOps build."""
 
     build_id: int
@@ -47,6 +47,6 @@ class DevOpsBuild:
     queue_time: str | None = None
     start_time: str | None = None
     finish_time: str | None = None
-    definition: DevOpsBuildDefinition | None = None
+    definition: BuildDefinition | None = None
     project: Project | None = None
-    links: DevOpsBuildLinks | None = None
+    links: BuildLinks | None = None
