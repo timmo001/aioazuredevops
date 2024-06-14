@@ -11,10 +11,10 @@ from aioazuredevops.wiql import DevOpsWiqlColumn, DevOpsWiqlResult, DevOpsWiqlWo
 from aioazuredevops.work_item import (
     DevOpsWorkItem,
     DevOpsWorkItemAvatar,
+    DevOpsWorkItemFields,
     DevOpsWorkItemLinks,
+    DevOpsWorkItems,
     DevOpsWorkItemUser,
-    DevOpsWorkItemValue,
-    DevOpsWorkItemValueFields,
 )
 
 BASE_URL: Final[str] = "https://dev.azure.com"
@@ -327,7 +327,7 @@ class DevOpsClient:
         organization: str,
         project: str,
         ids: list[int],
-    ) -> DevOpsWorkItem | None:
+    ) -> DevOpsWorkItems | None:
         """Get Azure DevOps work items."""
         response: aiohttp.ClientResponse = await self._get(
             f"{BASE_URL}/{organization}/{project}/_apis/wit/workitems?ids={','.join(str(id) for id in ids)}&api-version=6.0"
@@ -337,13 +337,13 @@ class DevOpsClient:
         if (data := await response.json()) is None:
             return None
 
-        return DevOpsWorkItem(
+        return DevOpsWorkItems(
             count=data["count"],
             value=[
-                DevOpsWorkItemValue(
+                DevOpsWorkItem(
                     id=work_item["id"],
                     rev=work_item["rev"],
-                    fields=DevOpsWorkItemValueFields(
+                    fields=DevOpsWorkItemFields(
                         area_path=work_item["fields"]["System.AreaPath"],
                         team_project=work_item["fields"]["System.TeamProject"],
                         iteration_path=work_item["fields"]["System.IterationPath"],
