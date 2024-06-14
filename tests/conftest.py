@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 from aioresponses import aioresponses
 import pytest
 
-from aioazuredevops.client import DEFAULT_BASE_URL, DevOpsClient
+from aioazuredevops.client import DEFAULT_API_VERSION, DEFAULT_BASE_URL, DevOpsClient
 
 from . import (
     ORGANIZATION,
@@ -31,56 +31,62 @@ def mock_aioresponse():
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}?api-version={DEFAULT_API_VERSION}",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}?api-version={DEFAULT_API_VERSION}",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis?api-version={DEFAULT_API_VERSION}",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects?api-version={DEFAULT_API_VERSION}",
             payload=RESPONSE_JSON_BASIC,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{PROJECT}",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{PROJECT}?api-version={DEFAULT_API_VERSION}&includeCapabilities=true&includeHistory=true",
             payload=RESPONSE_JSON_DEVOPS_PROJECT,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds?api-version={DEFAULT_API_VERSION}",
             payload=RESPONSE_JSON_DEVOPS_BUILDS,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds/1",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/build/builds/1?api-version={DEFAULT_API_VERSION}",
             payload=RESPONSE_JSON_DEVOPS_BUILD,
             status=200,
             repeat=True,
         )
         mocker.post(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/wiql?api-version=7.2-preview",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/wiql?api-version={DEFAULT_API_VERSION}",
             payload=RESPONSE_JSON_DEVOPS_WIQL_RESULT,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?ids=1&api-version=7.2-preview",
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?api-version={DEFAULT_API_VERSION}&errorPolicy=omit&ids=1",
             payload=RESPONSE_JSON_DEVOPS_WORK_ITEMS,
+            status=200,
+            repeat=True,
+        )
+        mocker.get(
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems/1?api-version={DEFAULT_API_VERSION}&errorPolicy=omit",
+            payload=RESPONSE_JSON_DEVOPS_WORK_ITEMS["value"][0],
             status=200,
             repeat=True,
         )

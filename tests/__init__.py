@@ -15,11 +15,30 @@ RESPONSE_JSON_DEVOPS_PROJECT: Final[dict] = {
     "description": "testdescription",
     "url": "testurl",
     "state": "teststate",
+    "capabilities": {
+        "processTemplate": {
+            "templateName": "Agile",
+            "templateTypeId": "abc123-abc1-abc1-abc1-abc123456789",
+        },
+        "versioncontrol": {
+            "sourceControlType": "Git",
+            "gitEnabled": "True",
+            "tfvcEnabled": "False",
+        },
+    },
     "revision": 1,
     "visibility": "testvisibility",
-    "last_updated": None,
-    "default_team": None,
-    "links": None,
+    "lastUpdated": None,
+    "defaultTeam": {
+        "id": "testid",
+        "name": "testname",
+        "url": "testurl",
+    },
+    "_links": {
+        "self": {"href": "testself"},
+        "collection": {"href": "testcollection"},
+        "web": {"href": "testweb"},
+    },
 }
 
 

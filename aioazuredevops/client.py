@@ -155,7 +155,9 @@ class DevOpsClient:
             last_update_time=datetime.strptime(
                 json["lastUpdateTime"],
                 "%Y-%m-%dT%H:%M:%S.%fZ",
-            ),
+            )
+            if "lastUpdateTime" in json
+            else None,
         )
 
     async def get_builds(
@@ -166,7 +168,7 @@ class DevOpsClient:
     ) -> list[Build] | None:
         """Get Azure DevOps builds."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/build/builds{parameters}&api-version={DEFAULT_API_VERSION}",
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/build/builds{"?" if parameters == "" else parameters}&api-version={DEFAULT_API_VERSION}",
         )
         if response.status != 200:
             return None

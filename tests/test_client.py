@@ -75,7 +75,7 @@ async def test_get_project(
 
     # Test with client error
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{BAD_PROJECT_NAME}?api-version={DEFAULT_API_VERSION}",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{BAD_PROJECT_NAME}?api-version={DEFAULT_API_VERSION}&includeCapabilities=true&includeHistory=true",
         status=400,
     )
 
@@ -88,7 +88,7 @@ async def test_get_project(
 
     # Test with empty response
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{EMPTY_PROJECT_NAME}?api-version={DEFAULT_API_VERSION}",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/_apis/projects/{EMPTY_PROJECT_NAME}?api-version={DEFAULT_API_VERSION}&includeCapabilities=true&includeHistory=true",
         payload=None,
         status=200,
     )
@@ -273,7 +273,7 @@ async def test_get_work_items(
 
     # Test bad request
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version={DEFAULT_API_VERSION}",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/workitems?api-version={DEFAULT_API_VERSION}&errorPolicy=omit&ids=1",
         status=400,
     )
 
@@ -287,7 +287,7 @@ async def test_get_work_items(
 
     # Test with empty response
     mock_aioresponse.get(
-        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version={DEFAULT_API_VERSION}",
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/workitems?api-version={DEFAULT_API_VERSION}&errorPolicy=omit&ids=1",
         payload=None,
         status=200,
     )
@@ -299,3 +299,62 @@ async def test_get_work_items(
     )
 
     assert empty_work_items is None
+
+
+@pytest.mark.asyncio
+async def test_get_work_item_types(
+    devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test the get_work_item_types method."""
+    work_item_types = await devops_client.get_work_item_types(
+        organization=ORGANIZATION,
+        project=PROJECT,
+    )
+
+    assert work_item_types == snapshot(
+        name="work_item_types",
+    )
+
+    # Test with authorization (GET with PAT)
+    assert await devops_client.authorize(
+        pat=PAT,
+        organization=ORGANIZATION,
+    )
+
+    work_item_types = await devops_client.get_work_item_types(
+        organization=ORGANIZATION,
+        project=PROJECT,
+    )
+
+    assert work_item_types == snapshot(
+        name="work_item_types_authorized",
+    )
+
+    # Test with client error
+    mock_aioresponse.get(
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/workitemtypes?api-version={DEFAULT_API_VERSION}",
+        status=400,
+    )
+
+    bad_work_item_types = await devops_client.get_work_item_types(
+        organization=ORGANIZATION,
+        project=BAD_PROJECT_NAME,
+    )
+
+    assert bad_work_item_types is None
+
+    # Test with empty response
+    mock_aioresponse.get(
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/workitemtypes?api-version={DEFAULT_API_VERSION}",
+        payload=None,
+        status=200,
+    )
+
+    empty_work_item_types = await devops_client.get_work_item_types(
+        organization=ORGANIZATION,
+        project=EMPTY_PROJECT_NAME,
+    )
+
+    assert empty_work_item_types is None
