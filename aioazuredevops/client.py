@@ -24,6 +24,14 @@ from .models.work_item import (
     WorkItems,
     WorkItemUser,
 )
+from .models.work_item_types import (
+    Category,
+    Field,
+    Icon,
+    State,
+    Transition,
+    WorkItemType,
+)
 
 DEFAULT_BASE_URL: Final[str] = "https://dev.azure.com"
 DEFAULT_API_VERSION: Final[str] = "7.2-preview"
@@ -517,3 +525,74 @@ class DevOpsClient:
                     work_items.value.extend(wi.value)
 
         return work_items
+
+    async def get_work_item_types(
+        self,
+        organization: str,
+        project: str,
+    ) -> list[WorkItemType] | None:
+        """Get Azure DevOps work item types."""
+        response: aiohttp.ClientResponse = await self._get(
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/wit/workitemtypes?api-version={DEFAULT_API_VERSION}"
+        )
+        if response.status != 200:
+            return None
+        if (data := await response.json()) is None:
+            return None
+
+        return [
+            WorkItemType(
+                name=work_item_type["name"],
+                reference_name=work_item_type["referenceName"],
+                description=work_item_type["description"],
+                color=work_item_type["color"],
+                icon=Icon(
+                    id=work_item_type["icon"]["id"],
+                    url=work_item_type["icon"]["url"],
+                ),
+                is_disabled=work_item_type["isDisabled"],
+                xml_form=work_item_type["xmlForm"],
+                fields=[
+                    Field(
+                        always_required=field["alwaysRequired"],
+                        reference_name=field["referenceName"],
+                        name=field["name"],
+                        url=field["url"],
+                        default_value=field.get("defaultValue", None),
+                        help_text=field.get("helpText", None),
+                    )
+                    for field in work_item_type["fields"]
+                ],
+                field_instances=[
+                    Field(
+                        always_required=field_instance["alwaysRequired"],
+                        reference_name=field_instance["referenceName"],
+                        name=field_instance["name"],
+                        url=field_instance["url"],
+                        default_value=field_instance.get("defaultValue", None),
+                        help_text=field_instance.get("helpText", None),
+                    )
+                    for field_instance in work_item_type["fieldInstances"]
+                ],
+                transitions={
+                    key: [
+                        Transition(
+                            to=transition["to"],
+                            actions=transition.get("actions", None),
+                        )
+                        for transition in transitions
+                    ]
+                    for key, transitions in work_item_type["transitions"].items()
+                },
+                states=[
+                    State(
+                        name=state["name"],
+                        color=state["color"],
+                        category=Category(state["category"]),
+                    )
+                    for state in work_item_type["states"]
+                ],
+                url=work_item_type["url"],
+            )
+            for work_item_type in data["value"]
+        ]
