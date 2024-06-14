@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 @dataclass
-class DevOpsWiqlColumn:
+class WIQLColumn:
     """Azure DevOps WIQL Column."""
 
     reference_name: str
@@ -17,7 +17,7 @@ class DevOpsWiqlColumn:
 
 
 @dataclass
-class DevOpsWiqlWorkItem:
+class WIQLWorkItem:
     """Azure DevOps WIQL Work Item."""
 
     id: int
@@ -25,11 +25,11 @@ class DevOpsWiqlWorkItem:
 
 
 @dataclass
-class DevOpsWiqlResult:
+class WIQLResult:
     """Azure DevOps WIQL Result."""
 
     query_type: str
     query_result_type: str
     as_of: datetime
-    columns: list[DevOpsWiqlColumn]
-    work_items: list[DevOpsWiqlWorkItem]
+    columns: list[WIQLColumn]
+    work_items: list[WIQLWorkItem]

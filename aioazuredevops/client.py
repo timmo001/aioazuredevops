@@ -15,7 +15,7 @@ from aioazuredevops.core import (
     Project,
     VersionControl,
 )
-from aioazuredevops.wiql import DevOpsWiqlColumn, DevOpsWiqlResult, DevOpsWiqlWorkItem
+from aioazuredevops.wiql import WIQLColumn, WIQLResult, WIQLWorkItem
 from aioazuredevops.work_item import (
     DevOpsWorkItem,
     DevOpsWorkItemAvatar,
@@ -305,7 +305,7 @@ class DevOpsClient:
         self,
         organization: str,
         project: str,
-    ) -> DevOpsWiqlResult | None:
+    ) -> WIQLResult | None:
         """Get Azure DevOps work item ids from wiql."""
         response: aiohttp.ClientResponse = await self._post(
             f"{BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version={API_VERSION}",
@@ -318,12 +318,12 @@ class DevOpsClient:
         if (data := await response.json()) is None:
             return None
 
-        return DevOpsWiqlResult(
+        return WIQLResult(
             query_type=data["queryType"],
             query_result_type=data["queryResultType"],
             as_of=data["asOf"],
             columns=[
-                DevOpsWiqlColumn(
+                WIQLColumn(
                     reference_name=column["referenceName"],
                     name=column["name"],
                     url=column["url"],
@@ -331,7 +331,7 @@ class DevOpsClient:
                 for column in data["columns"]
             ],
             work_items=[
-                DevOpsWiqlWorkItem(
+                WIQLWorkItem(
                     id=work_item["id"],
                     url=work_item["url"],
                 )
