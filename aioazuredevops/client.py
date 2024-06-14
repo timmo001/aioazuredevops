@@ -18,7 +18,7 @@ from aioazuredevops.work_item import (
 )
 
 BASE_URL: Final[str] = "https://dev.azure.com"
-API_VERSION: Final[str] = "7.2"
+API_VERSION: Final[str] = "7.2-preview"
 
 
 class DevOpsClient:
@@ -130,6 +130,22 @@ class DevOpsClient:
             if "_links" in json
             else None,
         )
+
+    async def get_project_properties(
+        self,
+        organization: str,
+        project: str,
+    ) -> dict | None:
+        """Get Azure DevOps project properties."""
+        response: aiohttp.ClientResponse = await self._get(
+            f"{BASE_URL}/{organization}/_apis/projects/{project}/properties?api-version={API_VERSION}"
+        )
+        if response.status != 200:
+            return None
+        if (json := await response.json()) is None:
+            return None
+
+        return json
 
     async def get_builds(
         self,
