@@ -343,6 +343,7 @@ class DevOpsClient:
         self,
         organization: str,
         project: str,
+        max_results: int | None = None,
     ) -> list[int] | None:
         """Get Azure DevOps work item ids."""
         wiql_result = await self.get_work_item_ids_from_wiql(
@@ -352,6 +353,9 @@ class DevOpsClient:
 
         if wiql_result is None:
             return None
+
+        if max_results is not None:
+            return [wi.id for wi in wiql_result.work_items[:max_results]]
 
         return [wi.id for wi in wiql_result.work_items]
 
