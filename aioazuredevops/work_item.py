@@ -36,8 +36,8 @@ class DevOpsWorkItemUser:
 
 
 @dataclass
-class DevOpsWorkItemValueFields:
-    """Azure DevOps work item value fields."""
+class DevOpsWorkItemFields:
+    """Azure DevOps work item fields."""
 
     area_path: str
     team_project: str
@@ -57,18 +57,18 @@ class DevOpsWorkItemValueFields:
 
 
 @dataclass
-class DevOpsWorkItemValue:
-    """Azure DevOps work item value."""
+class DevOpsWorkItem:
+    """Azure DevOps work item."""
 
     id: int
     rev: int
-    fields: DevOpsWorkItemValueFields
+    fields: DevOpsWorkItemFields
     url: str
 
 
 @dataclass
-class DevOpsWorkItem:
-    """Azure DevOps work item."""
+class DevOpsWorkItems:
+    """Azure DevOps work items."""
 
     count: int
-    value: list[DevOpsWorkItemValue]
+    value: list[DevOpsWorkItem]
