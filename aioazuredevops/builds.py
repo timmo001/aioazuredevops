@@ -1,6 +1,6 @@
 """DevOps Builds.
 
-https://docs.microsoft.com/en-gb/rest/api/azure/devops/build/builds?view=azure-devops-rest-6.0
+https://docs.microsoft.com/en-gb/rest/api/azure/devops/build/builds?view=azure-devops-rest-7.2-preview-preview
 """
 
 from dataclasses import dataclass

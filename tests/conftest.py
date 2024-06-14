@@ -73,13 +73,13 @@ def mock_aioresponse():
             repeat=True,
         )
         mocker.post(
-            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/wiql?api-version=6.0",
+            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/wiql?api-version=7.2-preview",
             payload=RESPONSE_JSON_DEVOPS_WIQL_RESULT,
             status=200,
             repeat=True,
         )
         mocker.get(
-            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?ids=1&api-version=6.0",
+            f"{BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/wit/workitems?ids=1&api-version=7.2-preview",
             payload=RESPONSE_JSON_DEVOPS_WORK_ITEMS,
             status=200,
             repeat=True,

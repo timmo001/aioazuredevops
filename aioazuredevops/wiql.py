@@ -1,6 +1,6 @@
 """Basic WIQL Query to get all work items in a project.
 
-https://docs.microsoft.com/en-gb/rest/api/azure/devops/wit/wiql/query-by-wiql?view=azure-devops-rest-6.0
+https://docs.microsoft.com/en-gb/rest/api/azure/devops/wit/wiql/query-by-wiql?view=azure-devops-rest-7.2-preview
 """
 
 from dataclasses import dataclass

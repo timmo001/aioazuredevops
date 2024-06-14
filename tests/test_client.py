@@ -228,7 +228,7 @@ async def test_get_work_items_ids_all(
 
     # Test with client error
     mock_aioresponse.post(
-        f"{BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/wiql?api-version=6.0",
+        f"{BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/wiql?api-version=7.2-preview",
         status=400,
     )
 
@@ -241,7 +241,7 @@ async def test_get_work_items_ids_all(
 
     # Test with empty response
     mock_aioresponse.post(
-        f"{BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/wiql?api-version=6.0",
+        f"{BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/wiql?api-version=7.2-preview",
         payload=None,
         status=200,
     )
@@ -273,7 +273,7 @@ async def test_get_work_items(
 
     # Test bad request
     mock_aioresponse.get(
-        f"{BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version=6.0",
+        f"{BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version=7.2-preview",
         status=400,
     )
 
@@ -287,7 +287,7 @@ async def test_get_work_items(
 
     # Test with empty response
     mock_aioresponse.get(
-        f"{BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version=6.0",
+        f"{BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/wit/workitems?ids=1&api-version=7.2-preview",
         payload=None,
         status=200,
     )
