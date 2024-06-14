@@ -6,7 +6,15 @@ from typing import Final
 import aiohttp
 
 from aioazuredevops.builds import DevOpsBuild, DevOpsBuildDefinition, DevOpsBuildLinks
-from aioazuredevops.core import DevOpsLinks, DevOpsProject, DevOpsTeam
+from aioazuredevops.core import (
+    Capabilities,
+    DefaultTeam,
+    LinkCollection,
+    Links,
+    ProcessTemplate,
+    Project,
+    VersionControl,
+)
 from aioazuredevops.wiql import DevOpsWiqlColumn, DevOpsWiqlResult, DevOpsWiqlWorkItem
 from aioazuredevops.work_item import (
     DevOpsWorkItem,
@@ -94,58 +102,50 @@ class DevOpsClient:
         self,
         organization: str,
         project: str,
-    ) -> DevOpsProject | None:
+    ) -> Project | None:
         """Get Azure DevOps project."""
         response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects/{project}?api-version={API_VERSION}"
+            f"{BASE_URL}/{organization}/_apis/projects/{project}?includeCapabilities=true&includeHistory=true&api-version={API_VERSION}"
         )
         if response.status != 200:
             return None
         if (json := await response.json()) is None:
             return None
 
-        return DevOpsProject(
-            json["id"],
-            json["name"],
-            json.get("description", None),
-            json.get("url", None),
-            json.get("state", None),
-            json.get("revision", None),
-            json.get("visibility", None),
-            datetime.strptime(json["lastUpdateTime"], "%Y-%m-%dT%H:%M:%S.%fZ")
-            if "lastUpdateTime" in json
-            else None,
-            DevOpsTeam(
-                json["defaultTeam"]["id"],
-                json["defaultTeam"]["name"],
-                json["defaultTeam"]["url"],
-            )
-            if "defaultTeam" in json
-            else None,
-            DevOpsLinks(
-                json["_links"]["self"]["href"],
-                json["_links"]["collection"]["href"],
-                json["_links"]["web"]["href"],
-            )
-            if "_links" in json
-            else None,
+        return Project(
+            id=json["id"],
+            name=json["name"],
+            description=json["description"],
+            url=json["url"],
+            state=json["state"],
+            capabilities=Capabilities(
+                process_template=ProcessTemplate(
+                    json["capabilities"]["processTemplate"]["templateName"],
+                    json["capabilities"]["processTemplate"]["templateTypeId"],
+                ),
+                versioncontrol=VersionControl(
+                    json["capabilities"]["versioncontrol"]["sourceControlType"],
+                    json["capabilities"]["versioncontrol"]["gitEnabled"],
+                    json["capabilities"]["versioncontrol"]["tfvcEnabled"],
+                ),
+            ),
+            revision=json["revision"],
+            links=Links(
+                links_self=LinkCollection(json["_links"]["self"]["href"]),
+                collection=LinkCollection(json["_links"]["collection"]["href"]),
+                web=LinkCollection(json["_links"]["web"]["href"]),
+            ),
+            visibility=json["visibility"],
+            default_team=DefaultTeam(
+                id=json["defaultTeam"]["id"],
+                name=json["defaultTeam"]["name"],
+                url=json["defaultTeam"]["url"],
+            ),
+            last_update_time=datetime.strptime(
+                json["lastUpdateTime"],
+                "%Y-%m-%dT%H:%M:%S.%fZ",
+            ),
         )
-
-    async def get_project_properties(
-        self,
-        organization: str,
-        project: str,
-    ) -> dict | None:
-        """Get Azure DevOps project properties."""
-        response: aiohttp.ClientResponse = await self._get(
-            f"{BASE_URL}/{organization}/_apis/projects/{project}/properties?api-version={API_VERSION}"
-        )
-        if response.status != 200:
-            return None
-        if (json := await response.json()) is None:
-            return None
-
-        return json
 
     async def get_builds(
         self,
@@ -188,15 +188,15 @@ class DevOpsClient:
                     )
                     if "definition" in build
                     else None,
-                    DevOpsProject(
-                        build["project"]["id"],
-                        build["project"]["name"],
-                        build["project"].get("description", None),
-                        build["project"].get("url", None),
-                        build["project"].get("state", None),
-                        build["project"].get("revision", None),
-                        build["project"].get("visibility", None),
-                        datetime.strptime(
+                    Project(
+                        id=build["project"]["id"],
+                        name=build["project"]["name"],
+                        description=build["project"].get("description", None),
+                        url=build["project"].get("url", None),
+                        state=build["project"].get("state", None),
+                        revision=build["project"].get("revision", None),
+                        visibility=build["project"].get("visibility", None),
+                        last_update_time=datetime.strptime(
                             build["project"]["lastUpdateTime"],
                             "%Y-%m-%dT%H:%M:%S.%fZ",
                         )
@@ -267,15 +267,15 @@ class DevOpsClient:
             )
             if "definition" in build
             else None,
-            DevOpsProject(
-                build["project"]["id"],
-                build["project"]["name"],
-                build["project"].get("description", None),
-                build["project"].get("url", None),
-                build["project"].get("state", None),
-                build["project"].get("revision", None),
-                build["project"].get("visibility", None),
-                datetime.strptime(
+            Project(
+                id=build["project"]["id"],
+                name=build["project"]["name"],
+                description=build["project"].get("description", None),
+                url=build["project"].get("url", None),
+                state=build["project"].get("state", None),
+                revision=build["project"].get("revision", None),
+                visibility=build["project"].get("visibility", None),
+                last_update_time=datetime.strptime(
                     build["project"]["lastUpdateTime"],
                     "%Y-%m-%dT%H:%M:%S.%fZ",
                 )

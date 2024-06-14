@@ -1,6 +1,6 @@
 """DevOps Core.
 
-https://docs.microsoft.com/en-gb/rest/api/azure/devops/core/?view=azure-devops-rest-6.0
+https://docs.microsoft.com/en-gb/rest/api/azure/devops/core/?view=azure-devops-rest-7.2-preview
 """
 
 from dataclasses import dataclass
@@ -8,34 +8,67 @@ from datetime import datetime
 
 
 @dataclass
-class DevOpsLinks:
-    """Links."""
+class ProcessTemplate:
+    """Azure DevOps project process template."""
 
-    l_self: str | None = None
-    collection: str | None = None
-    web: str | None = None
-
-
-@dataclass
-class DevOpsTeam:
-    """DevOps Team."""
-
-    team_id: str
-    name: str
-    url: str | None = None
+    template_name: str
+    template_type_id: str
 
 
 @dataclass
-class DevOpsProject:
-    """A DevOps Project."""
+class VersionControl:
+    """Azure DevOps project version control."""
 
-    project_id: str
+    source_control_type: str
+    git_enabled: str
+    tfvc_enabled: str
+
+
+@dataclass
+class Capabilities:
+    """Azure DevOps project capabilities."""
+
+    process_template: ProcessTemplate
+    versioncontrol: VersionControl
+
+
+@dataclass
+class DefaultTeam:
+    """Azure DevOps project default team."""
+
+    id: str
     name: str
-    description: str | None = None
-    url: str | None = None
-    state: str | None = None
-    revision: int | None = None
-    visibility: str | None = None
-    last_updated: datetime | None = None
-    default_team: DevOpsTeam | None = None
-    links: DevOpsLinks | None = None
+    url: str
+
+
+@dataclass
+class LinkCollection:
+    """Azure DevOps project collection."""
+
+    href: str
+
+
+@dataclass
+class Links:
+    """Azure DevOps project links."""
+
+    links_self: LinkCollection
+    collection: LinkCollection
+    web: LinkCollection
+
+
+@dataclass
+class Project:
+    """Azure DevOps project."""
+
+    id: str
+    name: str
+    description: str
+    url: str
+    state: str
+    revision: int
+    visibility: str
+    capabilities: Capabilities | None = None
+    links: Links | None = None
+    default_team: DefaultTeam | None = None
+    last_update_time: datetime | None = None
