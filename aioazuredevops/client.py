@@ -318,12 +318,15 @@ class DevOpsClient:
         self,
         organization: str,
         project: str,
+        states: list[str] | None = None,
     ) -> WIQLResult | None:
         """Get Azure DevOps work item ids from wiql."""
+        where_condition = f"{' WHERE ' + ' OR '.join([f'[System.State] = \'{state}\'' for state in states]) if states is not None else ''}"
+
         response: aiohttp.ClientResponse = await self._post(
             f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version={DEFAULT_API_VERSION}",
             {
-                "query": "SELECT [System.Id] From workitems",
+                "query": f"SELECT [System.Id] From workitems{where_condition}",  # noqa: S608
             },
         )
         if response.status != 200:
@@ -357,11 +360,13 @@ class DevOpsClient:
         organization: str,
         project: str,
         max_results: int | None = None,
+        states: list[str] | None = None,
     ) -> list[int] | None:
         """Get Azure DevOps work item ids."""
         wiql_result = await self.get_work_item_ids_from_wiql(
             organization,
             project,
+            states,
         )
 
         if wiql_result is None:
@@ -518,7 +523,11 @@ class DevOpsClient:
         for i in range(0, len(ids), 200):
             chunk = ids[i : i + 200]
             if (
-                wi := await self._get_work_items(organization, project, chunk)
+                wi := await self._get_work_items(
+                    organization,
+                    project,
+                    chunk,
+                )
             ) is not None:
                 if work_items is None:
                     work_items = wi
