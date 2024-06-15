@@ -8,19 +8,23 @@
   ])
 # ---
 # name: test_get_iteration[iteration]
-  Iteration(id='abc123', name='testname', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl')
+  Iteration(id='abc123', name='Sprint 2', path='testname\\Sprint 2', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl')
 # ---
 # name: test_get_iteration_work_items[iteration_work_items]
   IterationWorkItemsResult(work_item_relations=[WorkItemRelation(rel=None, source=None, target=WorkItemRelationTarget(id=1, url='testurl'))], url='testurl')
 # ---
 # name: test_get_iterations[iterations]
   list([
-    Iteration(id='abc123', name='testname', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl'),
+    Iteration(id='abc123', name='Sprint 1', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='past'), url='testurl'),
+    Iteration(id='abc123', name='Sprint 2', path='testname\\Sprint 2', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl'),
+    Iteration(id='abc123', name='Sprint 3', path='testname\\Sprint 3', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='future'), url='testurl'),
   ])
 # ---
 # name: test_get_iterations[iterations_authorized]
   list([
-    Iteration(id='abc123', name='testname', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl'),
+    Iteration(id='abc123', name='Sprint 1', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='past'), url='testurl'),
+    Iteration(id='abc123', name='Sprint 2', path='testname\\Sprint 2', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl'),
+    Iteration(id='abc123', name='Sprint 3', path='testname\\Sprint 3', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='future'), url='testurl'),
   ])
 # ---
 # name: test_get_project[project]

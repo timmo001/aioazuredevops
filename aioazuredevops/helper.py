@@ -2,8 +2,33 @@
 
 from dataclasses import dataclass
 
+from .models.iteration import Iteration, IterationTimeFrame
 from .models.work_item import WorkItem
 from .models.work_item_type import Category, State, WorkItemType
+
+
+def current_iteration(iterations: list[Iteration]) -> Iteration | None:
+    """Get current iteration."""
+    for iteration in iterations:
+        if iteration.attributes.time_frame == IterationTimeFrame.CURRENT:
+            return iteration
+    return None
+
+
+def previous_iteration(iterations: list[Iteration]) -> Iteration | None:
+    """Get previous iteration."""
+    for key, iteration in enumerate(iterations):
+        if iteration.attributes.time_frame == IterationTimeFrame.CURRENT:
+            return iterations[key - 1]
+    return None
+
+
+def next_iteration(iterations: list[Iteration]) -> Iteration | None:
+    """Get next iteration."""
+    for key, iteration in enumerate(iterations):
+        if iteration.attributes.time_frame == IterationTimeFrame.CURRENT:
+            return iterations[key + 1]
+    return None
 
 
 @dataclass
