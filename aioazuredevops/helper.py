@@ -32,9 +32,12 @@ def work_item_types_states_filter(
     states = []
     for work_item_type in work_item_types:
         for state in work_item_type.states:
-            if categories and state.category in categories:
+            if categories is not None and state.category in categories:
                 states.append(state.name)
-            elif ignored_categories and state.category not in ignored_categories:
+            elif (
+                ignored_categories is not None
+                and state.category not in ignored_categories
+            ):
                 states.append(state.name)
     return states
 
@@ -58,9 +61,12 @@ def work_items_by_type_and_state(
                 category=state.category,
                 work_items=items,
             )
-            if categories and state.category in categories:
+            if categories is not None and state.category in categories:
                 states.append(state)
-            elif ignored_categories and state.category not in ignored_categories:
+            elif (
+                ignored_categories is not None
+                and state.category not in ignored_categories
+            ):
                 states.append(state)
         result.append(
             WorkItemTypeAndState(

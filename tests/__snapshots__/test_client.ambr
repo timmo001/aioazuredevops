@@ -12,27 +12,27 @@
 # ---
 # name: test_get_work_item_types[work_item_types]
   list([
-    WorkItemType(name='testname', reference_name='testreferenceName', description='testdescription', color='testcolor', icon=Icon(id='testid', url='testurl'), is_disabled=False, xml_form='testxmlForm', fields=[], field_instances=[], transitions={}, states=[], url='testurl'),
+    WorkItemType(name='testname', reference_name='testreferenceName', description='testdescription', color='testcolor', icon=Icon(id='testid', url='testurl'), is_disabled=False, xml_form='testxmlForm', fields=[], field_instances=[], transitions={}, states=[State(name='New', color='b2b2b2', category=<Category.PROPOSED: 'Proposed'>), State(name='On Hold', color='fcfea8', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Ready', color='007acc', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Development', color='e87025', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Code Review', color='f9b978', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Test', color='fbd144', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In UAT', color='71338d', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In PreProd', color='ef33a3', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Ready for Release', color='207752', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Released', color='c3d84c', category=<Category.RESOLVED: 'Resolved'>), State(name='Closed', color='339933', category=<Category.COMPLETED: 'Completed'>)], url='testurl'),
   ])
 # ---
 # name: test_get_work_item_types[work_item_types_authorized]
   list([
-    WorkItemType(name='testname', reference_name='testreferenceName', description='testdescription', color='testcolor', icon=Icon(id='testid', url='testurl'), is_disabled=False, xml_form='testxmlForm', fields=[], field_instances=[], transitions={}, states=[], url='testurl'),
+    WorkItemType(name='testname', reference_name='testreferenceName', description='testdescription', color='testcolor', icon=Icon(id='testid', url='testurl'), is_disabled=False, xml_form='testxmlForm', fields=[], field_instances=[], transitions={}, states=[State(name='New', color='b2b2b2', category=<Category.PROPOSED: 'Proposed'>), State(name='On Hold', color='fcfea8', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Ready', color='007acc', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Development', color='e87025', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Code Review', color='f9b978', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Test', color='fbd144', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In UAT', color='71338d', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In PreProd', color='ef33a3', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Ready for Release', color='207752', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Released', color='c3d84c', category=<Category.RESOLVED: 'Resolved'>), State(name='Closed', color='339933', category=<Category.COMPLETED: 'Completed'>)], url='testurl'),
   ])
 # ---
 # name: test_get_work_items[work_items]
   list([
-    WorkItem(id=123, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl'),
-    WorkItem(id=123, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl'),
+    WorkItem(id=1, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl'),
+    WorkItem(id=1, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl'),
   ])
 # ---
 # name: test_get_work_items_ids[work_items_ids]
   list([
-    123,
+    1,
   ])
 # ---
 # name: test_get_work_items_ids[work_items_ids_authorized]
   list([
-    123,
+    1,
   ])
 # ---

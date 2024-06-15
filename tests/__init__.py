@@ -79,7 +79,7 @@ RESPONSE_JSON_DEVOPS_BUILD: Final[dict] = {
 RESPONSE_JSON_DEVOPS_BUILDS: Final[dict] = {"value": [RESPONSE_JSON_DEVOPS_BUILD]}
 
 RESPONSE_JSON_DEVOPS_WIQL_WORK_ITEM: Final[dict] = {
-    "id": 123,
+    "id": 1,
     "url": "testurl",
 }
 
@@ -98,10 +98,10 @@ RESPONSE_JSON_DEVOPS_WIQL_RESULT: Final[dict] = {
 }
 
 RESPONSE_JSON_DEVOPS_WORK_ITEM: Final[dict] = {
-    "id": 123,
+    "id": 1,
     "rev": 234,
     "fields": {
-        "System.Id": 123,
+        "System.Id": 1,
         "System.Title": "testTitle",
         "System.AreaPath": "testAreaPath",
         "System.TeamProject": "testTeamProject",
@@ -141,7 +141,23 @@ RESPONSE_JSON_DEVOPS_WORK_ITEM_TYPES: Final[dict] = {
             "fields": [],
             "fieldInstances": [],
             "transitions": {},
-            "states": [],
+            "states": [
+                {"name": "New", "color": "b2b2b2", "category": "Proposed"},
+                {"name": "On Hold", "color": "fcfea8", "category": "InProgress"},
+                {"name": "Ready", "color": "007acc", "category": "InProgress"},
+                {"name": "In Development", "color": "e87025", "category": "InProgress"},
+                {"name": "In Code Review", "color": "f9b978", "category": "InProgress"},
+                {"name": "In Test", "color": "fbd144", "category": "InProgress"},
+                {"name": "In UAT", "color": "71338d", "category": "InProgress"},
+                {"name": "In PreProd", "color": "ef33a3", "category": "InProgress"},
+                {
+                    "name": "Ready for Release",
+                    "color": "207752",
+                    "category": "InProgress",
+                },
+                {"name": "Released", "color": "c3d84c", "category": "Resolved"},
+                {"name": "Closed", "color": "339933", "category": "Completed"},
+            ],
             "url": "testurl",
         }
     ],

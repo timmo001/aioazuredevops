@@ -1,0 +1,24 @@
+# serializer version: 1
+# name: test_work_item_types_states_filter.1
+  list([
+    'New',
+    'On Hold',
+    'Ready',
+    'In Development',
+    'In Code Review',
+    'In Test',
+    'In UAT',
+    'In PreProd',
+    'Ready for Release',
+    'Released',
+  ])
+# ---
+# name: test_work_item_types_states_filter[no_filter]
+  list([
+  ])
+# ---
+# name: test_work_items_by_type_and_state
+  list([
+    WorkItemTypeAndState(name='testname', reference_name='testreferenceName', description='testdescription', color='testcolor', icon=Icon(id='testid', url='testurl'), is_disabled=False, xml_form='testxmlForm', fields=[], field_instances=[], transitions={}, states=[State(name='New', color='b2b2b2', category=<Category.PROPOSED: 'Proposed'>), State(name='On Hold', color='fcfea8', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Ready', color='007acc', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Development', color='e87025', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Code Review', color='f9b978', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In Test', color='fbd144', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In UAT', color='71338d', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='In PreProd', color='ef33a3', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Ready for Release', color='207752', category=<Category.IN_PROGRESS: 'InProgress'>), State(name='Released', color='c3d84c', category=<Category.RESOLVED: 'Resolved'>), State(name='Closed', color='339933', category=<Category.COMPLETED: 'Completed'>)], url='testurl', state_items=[WorkItemState(name='New', color='b2b2b2', category=<Category.PROPOSED: 'Proposed'>, work_items=[]), WorkItemState(name='On Hold', color='fcfea8', category=<Category.IN_PROGRESS: 'InProgress'>, work_items=[]), WorkItemState(name='Ready', color='007acc', category=<Category.IN_PROGRESS: 'InProgress'>, work_items=[]), WorkItemState(name='In Development', color='e87025', category=<Category.IN_PROGRESS: 'InProgress'>, work_items=[]), WorkItemState(name='In Code Review', color='f9b978', category=<Category.IN_PROGRESS: 'InProgress'>, work_items=[]), WorkItemState(name='In Test', color='fbd144', category=<Category.IN_PROGRESS: 'InProgress'>, work_items=[]), WorkItemState(name='In UAT', color='71338d', category=<Category.IN_PROGRESS: 'InProgress'>, work_items=[]), WorkItemState(name='In PreProd', color='ef33a3', category=<Category.IN_PROGRESS: 'InProgress'>, work_items=[]), WorkItemState(name='Ready for Release', color='207752', category=<Category.IN_PROGRESS: 'InProgress'>, work_items=[]), WorkItemState(name='Released', color='c3d84c', category=<Category.RESOLVED: 'Resolved'>, work_items=[])]),
+  ])
+# ---
