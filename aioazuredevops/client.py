@@ -5,7 +5,7 @@ from typing import Final
 
 import aiohttp
 
-from .models.builds import Build, BuildDefinition, BuildLinks
+from .models.build import Build, BuildDefinition, BuildLinks
 from .models.core import (
     Capabilities,
     DefaultTeam,
@@ -24,7 +24,7 @@ from .models.work_item import (
     WorkItemLinks,
     WorkItemUser,
 )
-from .models.work_item_types import (
+from .models.work_item_type import (
     Category,
     Field,
     Icon,

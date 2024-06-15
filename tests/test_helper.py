@@ -9,7 +9,7 @@ from aioazuredevops.helper import (
     work_item_types_states_filter,
     work_items_by_type_and_state,
 )
-from aioazuredevops.models.work_item_types import Category
+from aioazuredevops.models.work_item_type import Category
 
 from . import ORGANIZATION, PROJECT
 

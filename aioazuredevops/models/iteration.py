@@ -5,6 +5,8 @@ from datetime import datetime
 from enum import StrEnum
 from uuid import UUID
 
+from . import ListResult
+
 
 class IterationTimeFrame(StrEnum):
     """Iteration timeframe."""
@@ -32,3 +34,6 @@ class Iteration:
     path: str
     attributes: IterationAttributes
     url: str
+
+
+type IterationsResult = ListResult[Iteration]

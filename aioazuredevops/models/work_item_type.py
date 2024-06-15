@@ -3,6 +3,8 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
+from . import ListResult
+
 
 @dataclass
 class Field:
@@ -69,9 +71,4 @@ class WorkItemType:
     url: str
 
 
-@dataclass
-class WorkItemTypesResult:
-    """Work item types result."""
-
-    count: int
-    value: list[WorkItemType]
+type WorkItemTypesResult = ListResult[WorkItemType]

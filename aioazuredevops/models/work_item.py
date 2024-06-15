@@ -8,6 +8,8 @@ from datetime import datetime
 from typing import Any
 from uuid import UUID
 
+from . import ListResult
+
 
 @dataclass
 class WorkItemAvatar:
@@ -65,3 +67,6 @@ class WorkItem:
     rev: int
     fields: WorkItemFields
     url: str
+
+
+type WorkItemsResult = ListResult[WorkItem]

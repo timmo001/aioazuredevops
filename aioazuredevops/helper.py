@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 
 from .models.work_item import WorkItem
-from .models.work_item_types import Category, State, WorkItemType
+from .models.work_item_type import Category, State, WorkItemType
 
 
 @dataclass
