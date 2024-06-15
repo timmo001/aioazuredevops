@@ -5,6 +5,7 @@ https://docs.microsoft.com/en-gb/rest/api/azure/devops/build/builds?view=azure-d
 
 from dataclasses import dataclass
 
+from . import ListResult
 from .core import Project
 
 
@@ -50,3 +51,6 @@ class Build:
     definition: BuildDefinition | None = None
     project: Project | None = None
     links: BuildLinks | None = None
+
+
+type BuildsResult = ListResult[Build]
