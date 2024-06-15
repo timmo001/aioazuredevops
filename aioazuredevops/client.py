@@ -21,7 +21,6 @@ from .models.work_item import (
     WorkItemAvatar,
     WorkItemFields,
     WorkItemLinks,
-    WorkItems,
     WorkItemUser,
 )
 from .models.work_item_types import (
