@@ -7,5 +7,5 @@ Provides aioazuredevops version information.
 
 from incremental import Version
 
-__version__ = Version("aioazuredevops", 2, 1, 1, dev=0)
+__version__ = Version("aioazuredevops", 2, 1, 1)
 __all__ = ["__version__"]
