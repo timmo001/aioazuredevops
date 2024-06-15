@@ -100,6 +100,13 @@ RESPONSE_JSON_DEVOPS_ITERATIONS: Final[dict] = {
     "value": [RESPONSE_JSON_DEVOPS_ITERATION],
 }
 
+RESPONSE_JSON_DEVOPS_ITERATION_WORK_ITEMS: Final[dict] = {
+    "workItemRelations": [
+        {"rel": None, "source": None, "target": {"id": 1, "url": "testurl"}}
+    ],
+    "url": "testurl",
+}
+
 RESPONSE_JSON_DEVOPS_WIQL_RESULT: Final[dict] = {
     "queryType": "testqueryType",
     "queryResultType": "testqueryResultType",

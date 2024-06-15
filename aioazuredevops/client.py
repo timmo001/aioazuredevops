@@ -16,6 +16,11 @@ from .models.core import (
     VersionControl,
 )
 from .models.iteration import Iteration, IterationAttributes
+from .models.iteration_work_item import (
+    IterationWorkItemsResult,
+    WorkItemRelation,
+    WorkItemRelationTarget,
+)
 from .models.wiql import WIQLColumn, WIQLResult, WIQLWorkItem
 from .models.work_item import (
     WorkItem,
@@ -368,6 +373,36 @@ class DevOpsClient:
                 time_frame=iteration["attributes"]["timeFrame"],
             ),
             url=iteration["url"],
+        )
+
+    async def get_iteration_work_items(
+        self,
+        organization: str,
+        project: str,
+        iteration_id: str,
+    ) -> IterationWorkItemsResult | None:
+        """Get Azure DevOps iteration work items."""
+        response: aiohttp.ClientResponse = await self._get(
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/work/teamsettings/iterations/{iteration_id}/workitems?api-version={DEFAULT_API_VERSION}"
+        )
+        if response.status != 200:
+            return None
+        if (data := await response.json()) is None:
+            return None
+
+        return IterationWorkItemsResult(
+            work_item_relations=[
+                WorkItemRelation(
+                    rel=work_item_relation.get("rel", None),
+                    source=work_item_relation.get("source", None),
+                    target=WorkItemRelationTarget(
+                        id=work_item_relation["target"]["id"],
+                        url=work_item_relation["target"]["url"],
+                    ),
+                )
+                for work_item_relation in data["workItemRelations"]
+            ],
+            url=data["url"],
         )
 
     async def get_work_item_ids_from_wiql(
