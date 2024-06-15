@@ -1,4 +1,13 @@
 # serializer version: 1
+# name: test_current_iteration
+  Iteration(id='abc123', name='Sprint 2', path='testname\\Sprint 2', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl')
+# ---
+# name: test_next_iteration
+  Iteration(id='abc123', name='Sprint 3', path='testname\\Sprint 3', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='future'), url='testurl')
+# ---
+# name: test_previous_iteration
+  Iteration(id='abc123', name='Sprint 1', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='past'), url='testurl')
+# ---
 # name: test_work_item_types_states_filter.1
   list([
     'New',

@@ -6,12 +6,72 @@ from syrupy.assertion import SnapshotAssertion
 
 from aioazuredevops.client import DevOpsClient
 from aioazuredevops.helper import (
+    current_iteration,
+    next_iteration,
+    previous_iteration,
     work_item_types_states_filter,
     work_items_by_type_and_state,
 )
 from aioazuredevops.models.work_item_type import Category
 
 from . import ORGANIZATION, PROJECT
+
+
+@pytest.mark.asyncio
+async def test_current_iteration(
+    devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test the current_iteration method."""
+    iterations = await devops_client.get_iterations(
+        organization=ORGANIZATION,
+        project=PROJECT,
+    )
+
+    assert iterations is not None
+
+    assert current_iteration(iterations) == snapshot()
+
+    assert current_iteration([]) is None
+
+
+@pytest.mark.asyncio
+async def test_previous_iteration(
+    devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test the previous_iteration method."""
+    iterations = await devops_client.get_iterations(
+        organization=ORGANIZATION,
+        project=PROJECT,
+    )
+
+    assert iterations is not None
+
+    assert previous_iteration(iterations) == snapshot()
+
+    assert previous_iteration([]) is None
+
+
+@pytest.mark.asyncio
+async def test_next_iteration(
+    devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test the next_iteration method."""
+    iterations = await devops_client.get_iterations(
+        organization=ORGANIZATION,
+        project=PROJECT,
+    )
+
+    assert iterations is not None
+
+    assert next_iteration(iterations) == snapshot()
+
+    assert next_iteration([]) is None
 
 
 @pytest.mark.asyncio

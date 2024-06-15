@@ -85,8 +85,8 @@ RESPONSE_JSON_DEVOPS_WIQL_WORK_ITEM: Final[dict] = {
 
 RESPONSE_JSON_DEVOPS_ITERATION: Final[dict] = {
     "id": "abc123",
-    "name": "testname",
-    "path": "testname\\Sprint 1",
+    "name": "Sprint 2",
+    "path": "testname\\Sprint 2",
     "attributes": {
         "startDate": "2021-01-01T00:00:00Z",
         "finishDate": "2021-01-31T00:00:00Z",
@@ -97,7 +97,31 @@ RESPONSE_JSON_DEVOPS_ITERATION: Final[dict] = {
 
 RESPONSE_JSON_DEVOPS_ITERATIONS: Final[dict] = {
     "count": 1,
-    "value": [RESPONSE_JSON_DEVOPS_ITERATION],
+    "value": [
+        {
+            "id": "abc123",
+            "name": "Sprint 1",
+            "path": "testname\\Sprint 1",
+            "attributes": {
+                "startDate": "2021-01-01T00:00:00Z",
+                "finishDate": "2021-01-31T00:00:00Z",
+                "timeFrame": "past",
+            },
+            "url": "testurl",
+        },
+        RESPONSE_JSON_DEVOPS_ITERATION,
+        {
+            "id": "abc123",
+            "name": "Sprint 3",
+            "path": "testname\\Sprint 3",
+            "attributes": {
+                "startDate": "2021-01-01T00:00:00Z",
+                "finishDate": "2021-01-31T00:00:00Z",
+                "timeFrame": "future",
+            },
+            "url": "testurl",
+        },
+    ],
 }
 
 RESPONSE_JSON_DEVOPS_ITERATION_WORK_ITEMS: Final[dict] = {
