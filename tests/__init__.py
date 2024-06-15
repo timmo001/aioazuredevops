@@ -83,6 +83,23 @@ RESPONSE_JSON_DEVOPS_WIQL_WORK_ITEM: Final[dict] = {
     "url": "testurl",
 }
 
+RESPONSE_JSON_DEVOPS_ITERATION: Final[dict] = {
+    "id": "abc123",
+    "name": "testname",
+    "path": "testname\\Sprint 1",
+    "attributes": {
+        "startDate": "2021-01-01T00:00:00Z",
+        "finishDate": "2021-01-31T00:00:00Z",
+        "timeFrame": "current",
+    },
+    "url": "testurl",
+}
+
+RESPONSE_JSON_DEVOPS_ITERATIONS: Final[dict] = {
+    "count": 1,
+    "value": [RESPONSE_JSON_DEVOPS_ITERATION],
+}
+
 RESPONSE_JSON_DEVOPS_WIQL_RESULT: Final[dict] = {
     "queryType": "testqueryType",
     "queryResultType": "testqueryResultType",

@@ -15,6 +15,7 @@ from .models.core import (
     Project,
     VersionControl,
 )
+from .models.iteration import Iteration, IterationAttributes
 from .models.wiql import WIQLColumn, WIQLResult, WIQLWorkItem
 from .models.work_item import (
     WorkItem,
@@ -311,6 +312,62 @@ class DevOpsClient:
             )
             if "_links" in build
             else None,
+        )
+
+    async def get_iterations(
+        self,
+        organization: str,
+        project: str,
+    ) -> list[Iteration] | None:
+        """Get Azure DevOps iterations."""
+        response: aiohttp.ClientResponse = await self._get(
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/work/teamsettings/iterations?api-version={DEFAULT_API_VERSION}"
+        )
+        if response.status != 200:
+            return None
+        if (data := await response.json()) is None:
+            return None
+
+        return [
+            Iteration(
+                id=iteration["id"],
+                name=iteration["name"],
+                path=iteration["path"],
+                attributes=IterationAttributes(
+                    start_date=iteration["attributes"]["startDate"],
+                    finish_date=iteration["attributes"]["finishDate"],
+                    time_frame=iteration["attributes"]["timeFrame"],
+                ),
+                url=iteration["url"],
+            )
+            for iteration in data["value"]
+        ]
+
+    async def get_iteration(
+        self,
+        organization: str,
+        project: str,
+        iteration_id: str,
+    ) -> Iteration | None:
+        """Get Azure DevOps iteration."""
+        response: aiohttp.ClientResponse = await self._get(
+            f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/work/teamsettings/iterations/{iteration_id}?api-version={DEFAULT_API_VERSION}"
+        )
+        if response.status != 200:
+            return None
+        if (iteration := await response.json()) is None:
+            return None
+
+        return Iteration(
+            id=iteration["id"],
+            name=iteration["name"],
+            path=iteration["path"],
+            attributes=IterationAttributes(
+                start_date=iteration["attributes"]["startDate"],
+                finish_date=iteration["attributes"]["finishDate"],
+                time_frame=iteration["attributes"]["timeFrame"],
+            ),
+            url=iteration["url"],
         )
 
     async def get_work_item_ids_from_wiql(
