@@ -320,13 +320,16 @@ class DevOpsClient:
         states: list[str] | None = None,
     ) -> WIQLResult | None:
         """Get Azure DevOps work item ids from wiql."""
-        where_condition = f"{' WHERE ' + ' OR '.join([f'[System.State] = \'{state}\'' for state in states]) if states is not None else ''}"
+        state_condition = (
+            f" AND [System.State] IN({','.join([f'\'{state}\'' for state in states])})"
+            if states is not None
+            else ""
+        )
+        query = f"SELECT [System.Id] FROM workitems WHERE [System.TeamProject] = '{project}'{state_condition}"  # noqa: S608
 
         response: aiohttp.ClientResponse = await self._post(
             f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/wit/wiql?api-version={DEFAULT_API_VERSION}",
-            {
-                "query": f"SELECT [System.Id] From workitems{where_condition}",  # noqa: S608
-            },
+            {"query": query},
         )
         if response.status != 200:
             return None
