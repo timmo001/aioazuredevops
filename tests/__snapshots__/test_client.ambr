@@ -7,6 +7,19 @@
     Build(build_id=1, build_number='testbuildnumber', status='teststatus', result='testresult', source_branch='testsourcebranch', source_version='testsourceversion', priority='testpriority', reason='testreason', queue_time='testqueuetime', start_time='teststarttime', finish_time='teststarttime', definition=BuildDefinition(build_id=1, name='testname', url='testurl', path='testpath', build_type='testtype', queue_status='testqueuestatus', revision=1), project=Project(id='testid', name='testname', description='testdescription', url='testurl', state='teststate', revision=1, visibility='testvisibility', capabilities=None, links=None, default_team=None, last_update_time=None), links=BuildLinks(l_self='testself', web='testweb', source_version_display_uri='testsourceversiondisplayuri', timeline='testtimeline', badge='testbadge')),
   ])
 # ---
+# name: test_get_iteration[iteration]
+  Iteration(id='abc123', name='testname', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl')
+# ---
+# name: test_get_iterations[iterations]
+  list([
+    Iteration(id='abc123', name='testname', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl'),
+  ])
+# ---
+# name: test_get_iterations[iterations_authorized]
+  list([
+    Iteration(id='abc123', name='testname', path='testname\\Sprint 1', attributes=IterationAttributes(start_date='2021-01-01T00:00:00Z', finish_date='2021-01-31T00:00:00Z', time_frame='current'), url='testurl'),
+  ])
+# ---
 # name: test_get_project[project]
   Project(id='testid', name='testname', description='testdescription', url='testurl', state='teststate', revision=1, visibility='testvisibility', capabilities=Capabilities(process_template=ProcessTemplate(template_name='Agile', template_type_id='abc123-abc1-abc1-abc1-abc123456789'), versioncontrol=VersionControl(source_control_type='Git', git_enabled='True', tfvc_enabled='False')), links=Links(links_self=LinkCollection(href='testself'), collection=LinkCollection(href='testcollection'), web=LinkCollection(href='testweb')), default_team=DefaultTeam(id='testid', name='testname', url='testurl'), last_update_time=None)
 # ---
