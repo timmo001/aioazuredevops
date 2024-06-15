@@ -382,7 +382,7 @@ class DevOpsClient:
         organization: str,
         project: str,
         ids: list[int],
-    ) -> WorkItems | None:
+    ) -> list[WorkItem] | None:
         """Get Azure DevOps work items."""
         response: aiohttp.ClientResponse = await self._get(
             f"{DEFAULT_BASE_URL}/{organization}/{project}/_apis/wit/workitems?ids={','.join(str(id) for id in ids)}&errorPolicy=omit&api-version={DEFAULT_API_VERSION}"
@@ -392,128 +392,119 @@ class DevOpsClient:
         if (data := await response.json()) is None:
             return None
 
-        return WorkItems(
-            count=data["count"],
-            value=[
-                WorkItem(
-                    id=work_item["id"],
-                    rev=work_item["rev"],
-                    fields=WorkItemFields(
-                        area_path=work_item["fields"]["System.AreaPath"],
-                        team_project=work_item["fields"]["System.TeamProject"],
-                        iteration_path=work_item["fields"]["System.IterationPath"],
-                        work_item_type=work_item["fields"]["System.WorkItemType"],
-                        state=work_item["fields"]["System.State"],
-                        reason=work_item["fields"]["System.Reason"],
-                        assigned_to=WorkItemUser(
-                            display_name=work_item["fields"]["System.AssignedTo"][
-                                "displayName"
-                            ],
-                            url=work_item["fields"]["System.AssignedTo"].get(
-                                "url", None
-                            ),
-                            links=WorkItemLinks(
-                                avatar=WorkItemAvatar(
-                                    href=work_item["fields"]["System.AssignedTo"][
-                                        "_links"
-                                    ]["avatar"]["href"],
-                                ),
-                            )
-                            if "_links" in work_item["fields"]["System.AssignedTo"]
-                            else None,
-                            id=work_item["fields"]["System.AssignedTo"].get("id", None),
-                            unique_name=work_item["fields"]["System.AssignedTo"].get(
-                                "uniqueName", None
-                            ),
-                            image_url=work_item["fields"]["System.AssignedTo"].get(
-                                "imageUrl", None
-                            ),
-                            descriptor=work_item["fields"]["System.AssignedTo"].get(
-                                "descriptor", None
+        return [
+            WorkItem(
+                id=work_item["id"],
+                rev=work_item["rev"],
+                fields=WorkItemFields(
+                    area_path=work_item["fields"]["System.AreaPath"],
+                    team_project=work_item["fields"]["System.TeamProject"],
+                    iteration_path=work_item["fields"]["System.IterationPath"],
+                    work_item_type=work_item["fields"]["System.WorkItemType"],
+                    state=work_item["fields"]["System.State"],
+                    reason=work_item["fields"]["System.Reason"],
+                    assigned_to=WorkItemUser(
+                        display_name=work_item["fields"]["System.AssignedTo"][
+                            "displayName"
+                        ],
+                        url=work_item["fields"]["System.AssignedTo"].get("url", None),
+                        links=WorkItemLinks(
+                            avatar=WorkItemAvatar(
+                                href=work_item["fields"]["System.AssignedTo"]["_links"][
+                                    "avatar"
+                                ]["href"],
                             ),
                         )
-                        if "System.AssignedTo" in work_item["fields"]
-                        and work_item["fields"]["System.AssignedTo"]
+                        if "_links" in work_item["fields"]["System.AssignedTo"]
                         else None,
-                        created_date=work_item["fields"]["System.CreatedDate"],
-                        created_by=WorkItemUser(
-                            display_name=work_item["fields"]["System.CreatedBy"].get(
-                                "displayName", None
-                            ),
-                            url=work_item["fields"]["System.CreatedBy"].get(
-                                "url", None
-                            ),
-                            links=WorkItemLinks(
-                                avatar=WorkItemAvatar(
-                                    href=work_item["fields"]["System.CreatedBy"][
-                                        "_links"
-                                    ]["avatar"]["href"]
-                                ),
-                            )
-                            if "_links" in work_item["fields"]["System.CreatedBy"]
-                            else None,
-                            id=work_item["fields"]["System.CreatedBy"].get("id", None),
-                            unique_name=work_item["fields"]["System.CreatedBy"].get(
-                                "uniqueName", None
-                            ),
-                            image_url=work_item["fields"]["System.CreatedBy"].get(
-                                "imageUrl", None
-                            ),
-                            descriptor=work_item["fields"]["System.CreatedBy"].get(
-                                "descriptor", None
-                            ),
-                        )
-                        if "System.CreatedBy" in work_item["fields"]
-                        and work_item["fields"]["System.CreatedBy"]
-                        else None,
-                        changed_date=work_item["fields"]["System.ChangedDate"],
-                        changed_by=WorkItemUser(
-                            display_name=work_item["fields"]["System.ChangedBy"][
-                                "displayName"
-                            ],
-                            url=work_item["fields"]["System.ChangedBy"]["url"],
-                            links=WorkItemLinks(
-                                avatar=WorkItemAvatar(
-                                    href=work_item["fields"]["System.ChangedBy"][
-                                        "_links"
-                                    ]["avatar"]["href"],
-                                ),
-                            ),
-                            id=work_item["fields"]["System.ChangedBy"]["id"],
-                            unique_name=work_item["fields"]["System.ChangedBy"][
-                                "uniqueName"
-                            ],
-                            image_url=work_item["fields"]["System.ChangedBy"][
-                                "imageUrl"
-                            ],
-                            descriptor=work_item["fields"]["System.ChangedBy"][
-                                "descriptor"
-                            ],
-                        )
-                        if "System.ChangedBy" in work_item["fields"]
-                        and work_item["fields"]["System.ChangedBy"]
-                        else None,
-                        comment_count=work_item["fields"]["System.CommentCount"],
-                        title=work_item["fields"]["System.Title"],
-                        microsoft_vsts_common_state_change_date=work_item["fields"].get(
-                            "Microsoft.VSTS.Common.StateChangeDate", None
+                        id=work_item["fields"]["System.AssignedTo"].get("id", None),
+                        unique_name=work_item["fields"]["System.AssignedTo"].get(
+                            "uniqueName", None
                         ),
-                        microsoft_vsts_common_priority=work_item["fields"].get(
-                            "Microsoft.VSTS.Common.Priority", None
+                        image_url=work_item["fields"]["System.AssignedTo"].get(
+                            "imageUrl", None
                         ),
+                        descriptor=work_item["fields"]["System.AssignedTo"].get(
+                            "descriptor", None
+                        ),
+                    )
+                    if "System.AssignedTo" in work_item["fields"]
+                    and work_item["fields"]["System.AssignedTo"]
+                    else None,
+                    created_date=work_item["fields"]["System.CreatedDate"],
+                    created_by=WorkItemUser(
+                        display_name=work_item["fields"]["System.CreatedBy"].get(
+                            "displayName", None
+                        ),
+                        url=work_item["fields"]["System.CreatedBy"].get("url", None),
+                        links=WorkItemLinks(
+                            avatar=WorkItemAvatar(
+                                href=work_item["fields"]["System.CreatedBy"]["_links"][
+                                    "avatar"
+                                ]["href"]
+                            ),
+                        )
+                        if "_links" in work_item["fields"]["System.CreatedBy"]
+                        else None,
+                        id=work_item["fields"]["System.CreatedBy"].get("id", None),
+                        unique_name=work_item["fields"]["System.CreatedBy"].get(
+                            "uniqueName", None
+                        ),
+                        image_url=work_item["fields"]["System.CreatedBy"].get(
+                            "imageUrl", None
+                        ),
+                        descriptor=work_item["fields"]["System.CreatedBy"].get(
+                            "descriptor", None
+                        ),
+                    )
+                    if "System.CreatedBy" in work_item["fields"]
+                    and work_item["fields"]["System.CreatedBy"]
+                    else None,
+                    changed_date=work_item["fields"]["System.ChangedDate"],
+                    changed_by=WorkItemUser(
+                        display_name=work_item["fields"]["System.ChangedBy"][
+                            "displayName"
+                        ],
+                        url=work_item["fields"]["System.ChangedBy"]["url"],
+                        links=WorkItemLinks(
+                            avatar=WorkItemAvatar(
+                                href=work_item["fields"]["System.ChangedBy"]["_links"][
+                                    "avatar"
+                                ]["href"],
+                            ),
+                        ),
+                        id=work_item["fields"]["System.ChangedBy"]["id"],
+                        unique_name=work_item["fields"]["System.ChangedBy"][
+                            "uniqueName"
+                        ],
+                        image_url=work_item["fields"]["System.ChangedBy"]["imageUrl"],
+                        descriptor=work_item["fields"]["System.ChangedBy"][
+                            "descriptor"
+                        ],
+                    )
+                    if "System.ChangedBy" in work_item["fields"]
+                    and work_item["fields"]["System.ChangedBy"]
+                    else None,
+                    comment_count=work_item["fields"]["System.CommentCount"],
+                    title=work_item["fields"]["System.Title"],
+                    microsoft_vsts_common_state_change_date=work_item["fields"].get(
+                        "Microsoft.VSTS.Common.StateChangeDate", None
                     ),
-                    url=work_item["url"],
-                )
-                for work_item in data["value"]
-            ],
-        )
+                    microsoft_vsts_common_priority=work_item["fields"].get(
+                        "Microsoft.VSTS.Common.Priority", None
+                    ),
+                ),
+                url=work_item["url"],
+            )
+            for work_item in data["value"]
+        ]
 
     async def get_work_items(
         self,
         organization: str,
         project: str,
         ids: list[int],
-    ) -> WorkItems | None:
+    ) -> list[WorkItem] | None:
         """Get Azure DevOps work items."""
         work_items = None
 
@@ -532,8 +523,7 @@ class DevOpsClient:
                 if work_items is None:
                     work_items = wi
                 else:
-                    work_items.count += wi.count
-                    work_items.value.extend(wi.value)
+                    work_items.extend(wi)
 
         return work_items
 

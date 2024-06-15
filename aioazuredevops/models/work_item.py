@@ -66,10 +66,16 @@ class WorkItem:
     fields: WorkItemFields
     url: str
 
+    def is_type(
+        self,
+        work_item_type: str,
+    ) -> bool:
+        """Filter work item by type."""
+        return self.fields.work_item_type == work_item_type
 
-@dataclass
-class WorkItems:
-    """Azure DevOps work items."""
-
-    count: int
-    value: list[WorkItem]
+    def is_state(
+        self,
+        state: str,
+    ) -> bool:
+        """Filter work item by state."""
+        return self.fields.state == state
