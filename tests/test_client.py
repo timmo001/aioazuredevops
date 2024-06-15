@@ -302,6 +302,53 @@ async def test_get_iteration(
 
 
 @pytest.mark.asyncio
+async def test_get_iteration_work_items(
+    devops_client: DevOpsClient,
+    mock_aioresponse: aioresponses,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test the get_iteration_work_items method."""
+    iteration_work_items = await devops_client.get_iteration_work_items(
+        organization=ORGANIZATION,
+        project=PROJECT,
+        iteration_id="abc123",
+    )
+
+    assert iteration_work_items == snapshot(
+        name="iteration_work_items",
+    )
+
+    # Test with bad request
+    mock_aioresponse.get(
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{BAD_PROJECT_NAME}/_apis/work/teamsettings/iterations/abc123/workitems?api-version={DEFAULT_API_VERSION}",
+        status=400,
+    )
+
+    bad_iteration_work_items = await devops_client.get_iteration_work_items(
+        organization=ORGANIZATION,
+        project=BAD_PROJECT_NAME,
+        iteration_id="abc123",
+    )
+
+    assert bad_iteration_work_items is None
+
+    # Test with empty response
+    mock_aioresponse.get(
+        f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{EMPTY_PROJECT_NAME}/_apis/work/teamsettings/iterations/abc123/workitems?api-version={DEFAULT_API_VERSION}",
+        payload=None,
+        status=200,
+    )
+
+    empty_iteration_work_items = await devops_client.get_iteration_work_items(
+        organization=ORGANIZATION,
+        project=EMPTY_PROJECT_NAME,
+        iteration_id="abc123",
+    )
+
+    assert empty_iteration_work_items is None
+
+
+@pytest.mark.asyncio
 async def test_get_work_items_ids(
     devops_client: DevOpsClient,
     mock_aioresponse: aioresponses,

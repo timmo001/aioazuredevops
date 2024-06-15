@@ -15,6 +15,7 @@ from . import (
     RESPONSE_JSON_DEVOPS_BUILD,
     RESPONSE_JSON_DEVOPS_BUILDS,
     RESPONSE_JSON_DEVOPS_ITERATION,
+    RESPONSE_JSON_DEVOPS_ITERATION_WORK_ITEMS,
     RESPONSE_JSON_DEVOPS_ITERATIONS,
     RESPONSE_JSON_DEVOPS_PROJECT,
     RESPONSE_JSON_DEVOPS_WIQL_RESULT,
@@ -85,6 +86,12 @@ def mock_aioresponse():
         mocker.get(
             f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/work/teamsettings/iterations/abc123?api-version={DEFAULT_API_VERSION}",
             payload=RESPONSE_JSON_DEVOPS_ITERATION,
+            status=200,
+            repeat=True,
+        )
+        mocker.get(
+            f"{DEFAULT_BASE_URL}/{ORGANIZATION}/{PROJECT}/_apis/work/teamsettings/iterations/abc123/workitems?api-version={DEFAULT_API_VERSION}",
+            payload=RESPONSE_JSON_DEVOPS_ITERATION_WORK_ITEMS,
             status=200,
             repeat=True,
         )
