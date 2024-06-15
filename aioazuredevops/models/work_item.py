@@ -65,17 +65,3 @@ class WorkItem:
     rev: int
     fields: WorkItemFields
     url: str
-
-    def is_type(
-        self,
-        work_item_type: str,
-    ) -> bool:
-        """Filter work item by type."""
-        return self.fields.work_item_type == work_item_type
-
-    def is_state(
-        self,
-        state: str,
-    ) -> bool:
-        """Filter work item by state."""
-        return self.fields.state == state

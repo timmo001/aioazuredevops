@@ -21,7 +21,10 @@
   ])
 # ---
 # name: test_get_work_items[work_items]
-  WorkItems(count=2, value=[WorkItem(id=123, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl'), WorkItem(id=123, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl')])
+  list([
+    WorkItem(id=123, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl'),
+    WorkItem(id=123, rev=234, fields=WorkItemFields(area_path='testAreaPath', team_project='testTeamProject', iteration_path='testIterationPath', work_item_type='testWorkItemType', state='testState', reason='testReason', assigned_to=None, created_date='testCreatedDate', created_by=None, changed_date='testChangedDate', changed_by=None, comment_count=1, title='testTitle', microsoft_vsts_common_state_change_date=None, microsoft_vsts_common_priority=1), url='testurl'),
+  ])
 # ---
 # name: test_get_work_items_ids[work_items_ids]
   list([
