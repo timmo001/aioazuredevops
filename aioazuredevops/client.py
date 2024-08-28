@@ -131,7 +131,7 @@ class DevOpsClient:
         return Project(
             id=json["id"],
             name=json["name"],
-            description=json["description"],
+            description=json.get("description"),
             url=json["url"],
             state=json["state"],
             capabilities=Capabilities(

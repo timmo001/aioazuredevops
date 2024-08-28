@@ -63,11 +63,11 @@ class Project:
 
     id: str
     name: str
-    description: str
     url: str
     state: str
     revision: int
     visibility: str
+    description: str | None = None
     capabilities: Capabilities | None = None
     links: Links | None = None
     default_team: DefaultTeam | None = None
