@@ -10,7 +10,7 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name="aioazuredevops",
-    version="2.2.2.dev0",
+    version="2.2.2",
     author="Aidan Timson (Timmo)",
     author_email="aidan@timmo.dev",
     description="Get data from the Azure DevOps API",
