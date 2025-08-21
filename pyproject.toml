@@ -106,7 +106,7 @@ log_format = "%(asctime)s.%(msecs)03d %(levelname)-8s %(threadName)s %(name)s:%(
 log_date_format = "%Y-%m-%d %H:%M:%S"
 asyncio_mode = "auto"
 
-[tool.ruff]
+[tool.ruff.lint]
 select = [
   "B002",    # Python does not support the unary prefix increment
   "B007",    # Loop control variable {name} not used within loop body
@@ -191,14 +191,13 @@ ignore = [
   "UP007",   # keep type annotation style as is
   "UP038",   # Use `X | Y` in `isinstance` call instead of `(X, Y)`
 ]
-
-[tool.ruff.flake8-import-conventions.extend-aliases]
+[tool.ruff.lint.flake8-import-conventions.extend-aliases]
 voluptuous = "vol"
 
-[tool.ruff.flake8-pytest-style]
+[tool.ruff.lint.flake8-pytest-style]
 fixture-parentheses = false
 
-[tool.ruff.flake8-tidy-imports.banned-api]
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
 "async_timeout".msg = "use asyncio.timeout instead"
 "pytz".msg = "use zoneinfo instead"
 
